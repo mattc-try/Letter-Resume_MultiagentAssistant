@@ -15,8 +15,8 @@ This project is a simplified implementation of an AI-driven platform that genera
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/ai-resume-platform.git
-   cd ai-resume-platform
+   git clone https://github.com/mattc-try/Letter-Resume_MultiagentAssistant.git
+   cd Letter-Resume_MultiagentAssistant
    ```
 
 2. **Create a Virtual Environment**
