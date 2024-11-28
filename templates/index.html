@@ -1,0 +1,43 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI-Driven Resume Platform</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>AI-Driven Resume and Cover Letter Generator</h1>
+    <form method="post">
+        <label for="user_profile">User Profile:</label><br>
+        <textarea id="user_profile" name="user_profile" rows="10" cols="50" required></textarea><br><br>
+        <label for="job_description">Job Description:</label><br>
+        <textarea id="job_description" name="job_description" rows="10" cols="50" required></textarea><br><br>
+        <input type="submit" value="Generate">
+    </form>
+
+    {% if resume %}
+    <h2>Generated Resume</h2>
+    <pre>{{ resume }}</pre>
+
+    <h3>Resume Feedback</h3>
+    <p>Grammar and Spelling Corrections:</p>
+    <pre>{{ resume_feedback['grammar'] }}</pre>
+    <p>Readability Score: {{ resume_feedback['readability'] }}</p>
+    <p>Suggestions: {{ resume_feedback['suggestions'] }}</p>
+
+    <h2>Generated Cover Letter</h2>
+    <pre>{{ cover_letter }}</pre>
+
+    <h3>Cover Letter Feedback</h3>
+    <p>Grammar and Spelling Corrections:</p>
+    <pre>{{ cover_letter_feedback['grammar'] }}</pre>
+    <p>Readability Score: {{ cover_letter_feedback['readability'] }}</p>
+    <p>Suggestions: {{ cover_letter_feedback['suggestions'] }}</p>
+
+    <h2>Skill Matching</h2>
+    <p>Matched Skills: {{ matched_skills }}</p>
+    <p>Missing Skills: {{ missing_skills }}</p>
+    {% endif %}
+</body>
+</html>

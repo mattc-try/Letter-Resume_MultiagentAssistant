@@ -1,0 +1,4 @@
+transformers==4.30.0
+spacy==3.5.0
+textblob==0.17.1
+Flask==2.1.0
