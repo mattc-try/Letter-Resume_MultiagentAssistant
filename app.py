@@ -15,31 +15,37 @@ orchestrator = CrewaiOrchestrator()
 def index():
     if request.method == 'POST':
         # Get user inputs
-        user_profile = request.form['user_profile']
+        user_writeup = request.form['user_writeup']
+        user_website = request.form['user_website']
         job_description = request.form['job_description']
+
 
         # Step 1: Perform Skill Matching
         logger.info("Performing skill matching...")
-        skill_matching_results = orchestrator.execute_skill_matching(
-            job_posting_url=job_description,
-            linkedin_profile_url=user_profile
-        )
-        if not skill_matching_results:
-            return jsonify({"error": "Skill matching failed."}), 500
+        try:
+            skill_matching_results = orchestrator.execute_skill_matching(
+                job_posting_url=job_description,
+                user_website=user_website,
+                user_writeup=user_writeup
+            )
+        except Exception as e:
+            logger.error(f"Error during skill matching: {e}")
+            return render_template('index.html', skill_matching_results=f"Error: {e}")
 
-        matched_skills = skill_matching_results.get('matched_skills', [])
-        missing_skills = skill_matching_results.get('missing_skills', [])
+        if not skill_matching_results:
+            skill_matching_results = "Skill matching failed or returned no results."
+
         logger.info("Skill matching completed.")
 
-        # Step 2: Generate Resume and Cover Letter
+        # # Step 2: Generate Resume and Cover Letter
         logger.info("Generating resume and cover letter...")
         content_generation_results = orchestrator.execute_content_generation(skill_matching_results)
         if not content_generation_results:
             return jsonify({"error": "Content generation failed."}), 500
 
-        resume = content_generation_results.get('resume', 'Error generating resume.')
-        cover_letter = content_generation_results.get('cover_letter', 'Error generating cover letter.')
-        logger.info("Content generation completed.")
+        # resume = content_generation_results.get('resume', 'Error generating resume.')
+        # cover_letter = content_generation_results.get('cover_letter', 'Error generating cover letter.')
+        # logger.info("Content generation completed.")
 
         # Step 3: Feedback and Refinement (Optional)
         # Placeholder for feedback and refinement logic
@@ -47,10 +53,10 @@ def index():
         # Render results
         return render_template(
             'index.html',
-            resume=resume,
-            cover_letter=cover_letter,
-            matched_skills=matched_skills,
-            missing_skills=missing_skills
+            # resume=resume,
+            # cover_letter=cover_letter,
+            skill_matching_results=skill_matching_results,
+            content_generation_results=content_generation_results
         )
     return render_template('index.html')
 

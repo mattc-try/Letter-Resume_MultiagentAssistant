@@ -5,9 +5,6 @@ from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 
 class SkillMatching:
     def __init__(self):
-        # Suppress warnings
-        warnings.filterwarnings('ignore')
-
         # Initialize tools
         self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
@@ -37,7 +34,7 @@ class SkillMatching:
             tools=[self.scrape_tool, self.search_tool],
             verbose=True,
             backstory=(
-                "Equipped with analytical prowess, you synthesize information from diverse sources "
+                "Equipped with analytical prowess, you synthesize information from candidate profiles "
                 "to craft professional profiles, laying the groundwork for tailored resumes."
             )
         )
@@ -46,7 +43,6 @@ class SkillMatching:
         return Agent(
             role="Skill Matcher",
             goal="Match user's skills, education, and work experience with job requirements.",
-            tools=[self.search_tool],
             verbose=True,
             backstory=(
                 "You analyze job requirements and the user's profile to identify skill matches and gaps, "
@@ -57,7 +53,7 @@ class SkillMatching:
     def _create_research_task(self):
         return Task(
             description=(
-                "Analyze the job posting URL provided to extract key skills, experiences, and qualifications "
+                "Scrape the job posting URL {job_posting_url} provided to extract key skills, experiences, and qualifications "
                 "required. Use the tools to gather content and identify and categorize the requirements."
             ),
             expected_output="A structured list of job requirements, including necessary skills, qualifications, and experiences.",
@@ -67,14 +63,21 @@ class SkillMatching:
 
     def _create_profile_task(self):
         return Task(
-            description=(
-                "Compile a professional profile using the LinkedIn URL to find the user's skills, education, and work experiences. "
-                "Utilize tools to extract and synthesize information from these sources."
-            ),
-            expected_output="A comprehensive profile document that includes skills, project experiences, and interests.",
-            agent=self.profiler,
-            async_execution=True
-        )
+    description=(
+        "Compile a detailed personal and professional profile "
+        "using scraping the website the user optionally provided: ({user_website}) and his personal write-up "
+        "({user_writeup}). Utilize tools to extract and "
+        "synthesize information from these sources."
+    ),
+    expected_output=(
+        "A comprehensive profile document that includes skills, "
+        "project experiences, contributions, interests, and "
+        "communication style."
+    ),
+    agent=self.profiler,
+    async_execution=True
+)
+
 
     def _create_skill_matching_task(self):
         return Task(
@@ -87,3 +90,4 @@ class SkillMatching:
             dependencies=[self._create_research_task(), self._create_profile_task()],
             async_execution=False
         )
+

@@ -16,27 +16,54 @@ class CrewaiOrchestrator:
         warnings.filterwarnings('ignore')
 
         # Initialize API keys and environment variables
-        self.openai_api_key = os.getenv("OPENAI_API_KEY", "sk-RkFZVILgHMDgIz7GcMMRu-05S0qnAHD5kgBSdxxdMJT3BlbkFJ2TpIkjqkdqeSQf0fWB8EYdX_wyuMZuSQnMJ0UaeRsA")
+        self.openai_api_key = os.getenv("OPENAI_API_KEY", "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")
         os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
-        os.environ["SERPER_API_KEY"] = "1a8aaaa7f0219ee9e9d82d0f4c1fbc650fccf5d3"
+        os.environ["SERPER_API_KEY"] = self.get_serper_api_key()
 
         # Initialize tools
         self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
 
         # Initialize SkillMatching instance
-        self.skill_matching = SkillMatching()  # Create an instance of SkillMatching
+        skill_matching = SkillMatching()  # Create an instance of SkillMatching
 
         # Initialize Agents for Skill Matching
-        self.researcher = self.skill_matching._create_researcher_agent()
-        self.profiler = self.skill_matching._create_profiler_agent()
-        self.skill_matcher = self.skill_matching._create_skill_matcher_agent()
+        self.researcher = skill_matching._create_researcher_agent()
+        self.profiler = skill_matching._create_profiler_agent()
+        self.skill_matcher = skill_matching._create_skill_matcher_agent()
 
         # Initialize Tasks for Skill Matching
-        self.research_task = self.skill_matching._create_research_task()
-        self.profile_task = self.skill_matching._create_profile_task()
-        self.skill_matching_task = self.skill_matching._create_skill_matching_task()
+        self.research_task = skill_matching._create_research_task()
+        self.profile_task = skill_matching._create_profile_task()
+        self.skill_matching_task = skill_matching._create_skill_matching_task()
 
+        # Initialize ContentGeneration instance
+        content_generation = ContentGeneration()  # Create an instance of ContentGeneration
+
+        # Initialize Agents for Content Generation
+        self.resume_strategist = content_generation._create_resume_strategist()
+        self.cover_letter_strategist = content_generation._create_cover_letter_strategist()
+
+        # Initialize Tasks for Content Generation
+        self.resume_creation_task = content_generation._create_resume_creation_task()
+        self.cover_letter_creation_task = content_generation._create_cover_letter_creation_task()
+
+
+        # Define Flask API endpoint
+        self.flask_api_endpoint = 'http://localhost:5000/api'  # Update as needed
+
+
+    def execute_skill_matching(self, job_posting_url, user_website, user_writeup):
+        """
+        Executes the skill matching crew with the provided inputs.
+
+        Args:
+            job_posting_url (str): URL of the job posting.
+            linkedin_profile_url (str): URL of the user's LinkedIn profile.
+
+        Returns:
+            dict: Skill matching results.
+        """
         # Initialize Crew for Skill Matching
         self.skill_matching_crew = Crew(
             agents=[
@@ -52,24 +79,10 @@ class CrewaiOrchestrator:
             verbose=True
         )
 
-        # Define Flask API endpoint
-        self.flask_api_endpoint = 'http://localhost:5000/api'  # Update as needed
-
-
-    def execute_skill_matching(self, job_posting_url, linkedin_profile_url):
-        """
-        Executes the skill matching crew with the provided inputs.
-
-        Args:
-            job_posting_url (str): URL of the job posting.
-            linkedin_profile_url (str): URL of the user's LinkedIn profile.
-
-        Returns:
-            dict: Skill matching results.
-        """
         inputs = {
             'job_posting_url': job_posting_url,
-            'linkedin_profile_url': linkedin_profile_url,
+            'user_website': user_website,
+            'user_writeup': user_writeup
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)
         return result
@@ -84,6 +97,20 @@ class CrewaiOrchestrator:
         Returns:
             dict: Content generation results.
         """
+
+        # Initialize Crew for Content Generation
+        self.content_generation_crew = Crew(
+            agents=[
+                self.resume_strategist,
+                self.cover_letter_strategist
+            ],
+            tasks=[
+                self.resume_creation_task,
+                self.cover_letter_creation_task
+            ],
+            verbose=True
+        )
+
         inputs = {
             'skill_matching_output': skill_matching_output
         }
@@ -159,10 +186,10 @@ class CrewaiOrchestrator:
     def get_serper_api_key(self):
         return os.getenv('1a8aaaa7f0219ee9e9d82d0f4c1fbc650fccf5d3', 'fallback-serper-api-key')
 
-# Example usage (this should be called from your Flask routes or other parts of the app)
-if __name__ == "__main__":
-    orchestrator = CrewaiOrchestrator()
-    job_url = 'https://jobs.lever.co/AIFund/6c82e23e-d954-4dd8-a734-c0c2c5ee00f1?lever-origin=applied&lever-source%5B%5D=AI+Fund'
-    linkedin_url = 'https://www.linkedin.com/in/matteo-steinbach-724547284/'
-    final_results = orchestrator.orchestrate(job_url, linkedin_url)
-    print("Content Generation Results:", final_results)
+# # Example usage (this should be called from your Flask routes or other parts of the app)
+# if __name__ == "__main__":
+#     orchestrator = CrewaiOrchestrator()
+#     job_url = 'https://jobs.lever.co/AIFund/6c82e23e-d954-4dd8-a734-c0c2c5ee00f1?lever-origin=applied&lever-source%5B%5D=AI+Fund'
+#     linkedin_url = 'https://www.linkedin.com/in/matteo-steinbach-724547284/'
+#     final_results = orchestrator.orchestrate(job_url, linkedin_url)
+#     print("Content Generation Results:", final_results)

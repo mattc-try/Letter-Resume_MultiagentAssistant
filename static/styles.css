@@ -1,23 +1,47 @@
-/* static/styles.css */
-
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
-}
-
-h1 {
+    background-color: #f4f4f9;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
-
-label {
-    font-weight: bold;
+h1 {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    text-align: center;
 }
-
-textarea {
+form {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+input, button, textarea {
     width: 100%;
-}
-
-pre {
-    background-color: #f4f4f4;
     padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+textarea {
+    height: 150px; /* Set height of the textarea */
+    resize: vertical; /* Allow vertical resizing */
+}
+button {
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+pre {
+    background: #eee;
+    padding: 15px;
+    border-radius: 5px;
+    overflow: auto;
 }

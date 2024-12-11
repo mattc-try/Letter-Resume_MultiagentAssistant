@@ -3,46 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume and Cover Letter Generator</title>
+    <title>Job Application Helper</title>
+    <!-- Link to the CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Resume and Cover Letter Generator</h1>
-    <form method="POST">
-        <label for="user_profile">LinkedIn Profile URL:</label><br>
-        <input type="text" id="user_profile" name="user_profile" required><br><br>
+    <h1>Job Application Helper</h1>
+    
+    <!-- Input Form -->
+    <form method="post">
+        <!-- Name Input -->
+        <label for="user_name">Your Name:</label>
+        <input type="text" id="user_name" name="user_name" required>
+        <br>
 
-        <label for="job_description">Job Description/Posting URL:</label><br>
-        <textarea id="job_description" name="job_description" required></textarea><br><br>
+        <!-- Education Input -->
+        <label for="education">Your Education:</label>
+        <input type="text" id="education" name="education" required>
+        <br>
 
-        <button type="submit">Generate</button>
+        <!-- Professional Experience Input -->
+        <label for="experience">Your Professional Experience:</label>
+        <input type="text" id="experience" name="experience" required>
+        <br>
+
+        <!-- Website URL Input -->
+        <label for="user_website">User Personal Website URL (optional):</label>
+        <input type="text" id="user_website" name="user_website">
+        <br>
+
+        <!-- Personal Write-Up Input -->
+        <label for="user_writeup">Your Personal Write-Up:</label>
+        <textarea id="user_writeup" name="user_writeup" rows="6" cols="50" required></textarea>
+        <br>
+
+        <!-- Job Description Input -->
+        <label for="job_description">Job Description URL:</label>
+        <input type="text" id="job_description" name="job_description" required>
+        <br>
+
+        <!-- Submit Button -->
+        <button type="submit">Submit</button>
     </form>
 
-    {% if resume %}
-        <h2>Generated Resume:</h2>
-        <pre>{{ resume }}</pre>
+    <!-- Display Skill Matching Results -->
+    {% if skill_matching_results %}
+        <h2>Skill Matching Results</h2>
+        <pre>{{ skill_matching_results | safe }}</pre>
     {% endif %}
 
-    {% if cover_letter %}
-        <h2>Generated Cover Letter:</h2>
-        <pre>{{ cover_letter }}</pre>
-    {% endif %}
-
-    {% if matched_skills %}
-        <h2>Matched Skills:</h2>
-        <ul>
-            {% for skill in matched_skills %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-
-    {% if missing_skills %}
-        <h2>Missing Skills:</h2>
-        <ul>
-            {% for skill in missing_skills %}
-                <li>{{ skill }}</li>
-            {% endfor %}
-        </ul>
+    {% if content_generation_results %}
+    <h2>Skill Matching Results</h2>
+    <pre>{{ content_generation_results  | safe }}</pre>
     {% endif %}
 </body>
 </html>
+
+
+    <!-- Resume and Cover Letter
+    {% if resume %}
+        <h2>Generated Resume</h2>
+        <pre>{{ resume }}</pre>
+    {% endif %}
+    
+    {% if cover_letter %}
+        <h2>Generated Cover Letter</h2>
+        <pre>{{ cover_letter }}</pre>
+    {% endif %} -->
