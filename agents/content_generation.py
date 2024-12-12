@@ -51,7 +51,8 @@ class ContentGeneration:
                 "Using the profile and job requirements obtained from "
                 "previous tasks, create a resume for {name} with all necessary sections to highlight the most "
                 "relevant areas. Employ tools to adjust and enhance the "
-                "resume content. Make sure this is a resume of very good quality "
+                "resume content and look on the internet for best practices for creating a resume and apply them. "
+                "Make sure this is a resume of very good quality "
                 "but don't make up any information. Write every section, "
                 "including a summary, work experience with the {work_experience}, skills from {skill_matching_output}, "
                 "and education {edu} sections. All to better reflect the candidate's "
@@ -61,7 +62,6 @@ class ContentGeneration:
                 "A resume that effectively highlights the candidate's "
                 "qualifications and experiences relevant to the job."
             ),
-            # context=["skill_matching_output"],  # Assuming this refers to the output from SkillMatching crew
             agent=self.resume_strategist
         )
     
@@ -71,7 +71,8 @@ class ContentGeneration:
                 "Using the profile and job requirements obtained from {skill_matching_output}"
                 "and cv {generated_cv}, create a cover letter with all necessary information to highlight the most "
                 "relevant areas. Employ tools to adjust and enhance the "
-                "cover letter content. Make sure this is a cover letter of very good quality "
+                "cover letter content and look on the internet for best practices for creating a "
+                "cover letter and apply them. Make sure this is a cover letter of very good quality "
                 "but don't make up any information. Write the content to better reflect the candidate's "
                 "abilities and how it matches the job posting. "
                 "Write an intriguing cover letter that boosts the chance of landing an interview."
@@ -80,6 +81,5 @@ class ContentGeneration:
                 "A cover letter that effectively highlights the candidate's "
                 "qualifications and experiences relevant to the job."
             ),
-            # context=["skill_matching_output"],  # Assuming this refers to the output from SkillMatching crew
             agent=self.cover_letter_strategist
         )

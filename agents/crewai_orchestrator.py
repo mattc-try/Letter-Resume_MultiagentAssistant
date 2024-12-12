@@ -19,7 +19,6 @@ class CrewaiOrchestrator:
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "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")
         os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
         os.environ["SERPER_API_KEY"] = self.get_serper_api_key()
-
         # Initialize tools
         self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
