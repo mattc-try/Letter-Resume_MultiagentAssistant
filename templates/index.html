@@ -6,6 +6,8 @@
     <title>Job Application Helper</title>
     <!-- Link to the CSS file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Link to Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <h1>Job Application Helper</h1>
@@ -46,18 +48,36 @@
         <button type="submit">Submit</button>
     </form>
 
-    <!-- Display Skill Matching Results -->
     {% if skill_matching_results %}
+    <section class="result-section">
         <h2>Skill Matching Results</h2>
-        <pre>{{ skill_matching_results | safe }}</pre>
+        <div id="skill-results" class="markdown-output">
+            {{ skill_matching_results | safe }}
+        </div>
+        <h3>Key Skills Matching Score {{ skill_matching_results | score }}</h3>
+    </section>
     {% endif %}
 
-    {% if content_generation_results %}
-    <h2>Skill Matching Results</h2>
-    <pre>{{ content_generation_results  | safe }}</pre>
-    {% endif %}
+{% if resume %}
+    <section class="result-section">
+        <h2>Content Generation Results</h2>
+        <div id="resume-results" class="markdown-output">
+            {{ resume | safe }}
+        </div>
+    </section>
+{% endif %}
+
+{% if cover_letter %}
+    <section class="result-section">
+        <h2>Content Generation Results</h2>
+        <div id="cover-results" class="markdown-output">
+            {{ cover_letter | safe }}
+        </div>
+    </section>
+{% endif %}
 </body>
 </html>
+
 
 
     <!-- Resume and Cover Letter

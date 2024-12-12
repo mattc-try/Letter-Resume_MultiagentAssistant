@@ -91,3 +91,30 @@ class SkillMatching:
             async_execution=False
         )
 
+    def compute_score(self, skill_matching_output):
+        matching_skills = []
+        missing_skills = []
+
+        # Define weights
+        weight_map = {
+            'LOW': 1,
+            'HIGH': 2,
+            'CRITICAL': 3
+        }
+
+        for line in skill_matching_output.split('\n'):
+            if line.startswith('MATCHING_SKILL_'):
+                importance = line.split('_')[-1]
+                weight = weight_map.get(importance, 1)  # Default to 1 if importance is not found
+                matching_skills.append(weight)
+            elif line.startswith('MISSING_SKILL_'):
+                importance = line.split('_')[-1]
+                weight = weight_map.get(importance, 1)  # Default to 1 if importance is not found
+                missing_skills.append(weight)
+
+        total_weight = sum(matching_skills) + sum(missing_skills)
+        if total_weight == 0:
+            return 0
+
+        score = (sum(matching_skills) / total_weight) * 100
+        return score

@@ -5,12 +5,14 @@ body {
     margin: 0;
     padding: 0;
 }
+
 h1 {
     background-color: #007BFF;
     color: white;
     padding: 20px;
     text-align: center;
 }
+
 form {
     margin: 20px auto;
     max-width: 600px;
@@ -19,6 +21,7 @@ form {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
+
 input, button, textarea {
     width: 100%;
     padding: 10px;
@@ -26,22 +29,38 @@ input, button, textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 textarea {
-    height: 150px; /* Set height of the textarea */
-    resize: vertical; /* Allow vertical resizing */
+    height: 150px;
+    resize: vertical;
 }
+
 button {
     background-color: #007BFF;
     color: white;
     font-weight: bold;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #0056b3;
 }
-pre {
-    background: #eee;
+
+.result-section {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 20px;
+    background: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.markdown-output {
+    background: #f9f9f9;
     padding: 15px;
+    border: 1px solid #ddd;
     border-radius: 5px;
     overflow: auto;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
 }

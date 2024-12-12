@@ -48,13 +48,13 @@ class ContentGeneration:
     def _create_resume_creation_task(self):
         return Task(
             description=(
-                "Using the profile and job requirements obtained from {skill_matching_output}, "
-                "previous tasks, create a resume with all necessary sections to highlight the most "
+                "Using the profile and job requirements obtained from "
+                "previous tasks, create a resume for {name} with all necessary sections to highlight the most "
                 "relevant areas. Employ tools to adjust and enhance the "
                 "resume content. Make sure this is a resume of very good quality "
                 "but don't make up any information. Write every section, "
-                "including a summary, work experience, skills, "
-                "and education sections. All to better reflect the candidate's "
+                "including a summary, work experience with the {work_experience}, skills from {skill_matching_output}, "
+                "and education {edu} sections. All to better reflect the candidate's "
                 "abilities and how it matches the job posting."
             ),
             expected_output=(
@@ -69,7 +69,7 @@ class ContentGeneration:
         return Task(
             description=(
                 "Using the profile and job requirements obtained from {skill_matching_output}"
-                "previous tasks, create a cover letter with all necessary information to highlight the most "
+                "and cv {generated_cv}, create a cover letter with all necessary information to highlight the most "
                 "relevant areas. Employ tools to adjust and enhance the "
                 "cover letter content. Make sure this is a cover letter of very good quality "
                 "but don't make up any information. Write the content to better reflect the candidate's "

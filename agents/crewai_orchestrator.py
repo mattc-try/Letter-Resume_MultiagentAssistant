@@ -85,9 +85,39 @@ class CrewaiOrchestrator:
             'user_writeup': user_writeup
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)
+        score = self.skill_matching.compute_score()
+        return result, score 
+    
+    def execute_cover_leter_generation(self, skill_matching_output, generated_cv):
+        """
+        Executes the content generation crew using skill matching results.
+
+        Args:
+            skill_matching_output (dict): Output from the skill matching process.
+
+        Returns:
+            dict: Content generation results.
+        """
+
+        # Initialize Crew for Content Generation
+        self.content_generation_crew = Crew(
+            agents=[
+                self.cover_letter_strategist
+            ],
+            tasks=[
+                self.cover_letter_creation_task
+            ],
+            verbose=True
+        )
+
+        inputs = {
+            'skill_matching_output': skill_matching_output,
+            'generated_cv': generated_cv
+        }
+        result = self.content_generation_crew.kickoff(inputs=inputs)
         return result
     
-    def execute_content_generation(self, skill_matching_output):
+    def execute_resume_generation(self, skill_matching_output, name, work_experience, edu):
         """
         Executes the content generation crew using skill matching results.
 
@@ -102,20 +132,22 @@ class CrewaiOrchestrator:
         self.content_generation_crew = Crew(
             agents=[
                 self.resume_strategist,
-                self.cover_letter_strategist
             ],
             tasks=[
                 self.resume_creation_task,
-                self.cover_letter_creation_task
             ],
             verbose=True
         )
 
         inputs = {
-            'skill_matching_output': skill_matching_output
+            'skill_matching_output': skill_matching_output,
+            'name': name,
+            'work_experience': work_experience,
+            'edu': edu
         }
         result = self.content_generation_crew.kickoff(inputs=inputs)
         return result
+    
     
 
     def send_to_flask(self, data, endpoint):
