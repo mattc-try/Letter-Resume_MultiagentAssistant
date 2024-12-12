@@ -15,8 +15,8 @@
     <!-- Input Form -->
     <form method="post">
         <!-- Name Input -->
-        <label for="user_name">Your Name:</label>
-        <input type="text" id="user_name" name="user_name" required>
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
         <br>
 
         <!-- Education Input -->
@@ -54,7 +54,7 @@
         <div id="skill-results" class="markdown-output">
             {{ skill_matching_results | safe }}
         </div>
-        <h3>Key Skills Matching Score {{ skill_matching_results | score }}</h3>
+        <h3>Key Skills Matching Score {{ skill_matching_score | safe }}</h3>
     </section>
     {% endif %}
 

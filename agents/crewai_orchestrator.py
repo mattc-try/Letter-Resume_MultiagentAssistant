@@ -64,6 +64,7 @@ class CrewaiOrchestrator:
         Returns:
             dict: Skill matching results.
         """
+        classs = SkillMatching()
         # Initialize Crew for Skill Matching
         self.skill_matching_crew = Crew(
             agents=[
@@ -85,10 +86,10 @@ class CrewaiOrchestrator:
             'user_writeup': user_writeup
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)
-        score = self.skill_matching.compute_score()
+        score = classs.compute_score(result.raw)
         return result, score 
     
-    def execute_cover_leter_generation(self, skill_matching_output, generated_cv):
+    def execute_cover_letter_generation(self, skill_matching_output, generated_cv):
         """
         Executes the content generation crew using skill matching results.
 

@@ -20,7 +20,7 @@ def index():
         job_description = request.form['job_description']
         education = request.form['education']
         name = request.form['name']
-        work_experience = request.form['work_experience']
+        experience = request.form['experience']
 
 
         # Step 1: Perform Skill Matching
@@ -42,11 +42,11 @@ def index():
 
         # # Step 2: Generate Resume and Cover Letter
         logger.info("Generating resume and cover letter...")
-        cv = orchestrator.execute_resume_generation(skill_matching_results, name, work_experience, education)
+        cv = orchestrator.execute_resume_generation(skill_matching_results, name, experience, education)
         if not cv:
             return jsonify({"error": "Content generation failed."}), 500
         
-        cover = orchestrator.execute_resume_generation(skill_matching_results, cv)
+        cover = orchestrator.execute_cover_letter_generation(skill_matching_results, cv)
         if not cover:
             return jsonify({"error": "Content generation failed."}), 500
 
@@ -56,6 +56,11 @@ def index():
 
         # Step 3: Feedback and Refinement (Optional)
         # Placeholder for feedback and refinement logic
+
+        print("\n\n\nSkill Matching Results:", skill_matching_results)
+        print("\n\n\nResume:", cv)
+        print("\n\n\nCover Letter:", cover)
+        print("\n\n\nSkill Matching Score:", sm_score)
 
         # Render results
         return render_template(

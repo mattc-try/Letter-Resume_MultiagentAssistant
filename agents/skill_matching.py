@@ -85,7 +85,9 @@ class SkillMatching:
                 "Using the job requirements and the user's comprehensive profile, identify major skill matches "
                 "and extract relevant information that aligns with the job description."
             ),
-            expected_output="A detailed report highlighting matched skills, missing skills, and tailored suggestions.",
+            expected_output="A detailed report highlighting matched skills, missing skills, and tailored suggestions. "
+            "write the skills with the following formats: MATCHING_SKILL_[importance] or MISSING_SKILL_[importance] "
+            "where importance can be LOW, HIGH, or CRITICAL.",
             agent=self.skill_matcher,
             dependencies=[self._create_research_task(), self._create_profile_task()],
             async_execution=False
@@ -94,27 +96,35 @@ class SkillMatching:
     def compute_score(self, skill_matching_output):
         matching_skills = []
         missing_skills = []
-
+    
         # Define weights
         weight_map = {
             'LOW': 1,
             'HIGH': 2,
             'CRITICAL': 3
         }
-
+    
+        # Parse each line and extract skill information
         for line in skill_matching_output.split('\n'):
+            line = line.strip()  # Remove any extra whitespace
             if line.startswith('MATCHING_SKILL_'):
-                importance = line.split('_')[-1]
-                weight = weight_map.get(importance, 1)  # Default to 1 if importance is not found
-                matching_skills.append(weight)
+                parts = line.split('_')
+                if len(parts) >= 3:  # Ensure there is an importance level
+                    importance = parts[-1].replace(':', '')  # Remove colon if present
+                    weight = weight_map.get(importance, 1)  # Default to 1 if importance not found
+                    matching_skills.append(weight)
             elif line.startswith('MISSING_SKILL_'):
-                importance = line.split('_')[-1]
-                weight = weight_map.get(importance, 1)  # Default to 1 if importance is not found
-                missing_skills.append(weight)
-
+                parts = line.split('_')
+                if len(parts) >= 3:  # Ensure there is an importance level
+                    importance = parts[-1].replace(':', '')  # Remove colon if present
+                    weight = weight_map.get(importance, 1)  # Default to 1 if importance not found
+                    missing_skills.append(weight)
+    
+        # Calculate the total weight
         total_weight = sum(matching_skills) + sum(missing_skills)
         if total_weight == 0:
             return 0
-
+    
+        # Compute the score
         score = (sum(matching_skills) / total_weight) * 100
-        return score
+        return round(score, 2)  # Return a rounded score for better readability
