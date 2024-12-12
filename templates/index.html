@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <!-- Link to Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Include jsPDF library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
     <h1>Job Application Helper</h1>
@@ -75,6 +77,41 @@
         </div>
     </section>
 {% endif %}
+
+<!-- Button to trigger PDF generation -->
+{% if resume and cover_letter %}
+<button id="download-pdf" onclick="downloadPdf()">Download PDF</button>
+{% endif %}
+
+<script>
+    function downloadPdf() {
+        const resumeContent = document.getElementById('resume-results').innerText;
+        const coverLetterContent = document.getElementById('cover-results').innerText;
+
+        // Create a form to send the resume and cover letter content to the server
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/download-pdf';
+
+        // Append resume and cover letter content to the form
+        const resumeInput = document.createElement('input');
+        resumeInput.type = 'hidden';
+        resumeInput.name = 'resume';
+        resumeInput.value = resumeContent;
+        form.appendChild(resumeInput);
+
+        const coverLetterInput = document.createElement('input');
+        coverLetterInput.type = 'hidden';
+        coverLetterInput.name = 'cover_letter';
+        coverLetterInput.value = coverLetterContent;
+        form.appendChild(coverLetterInput);
+
+        // Append the form to the document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
 </body>
 </html>
 

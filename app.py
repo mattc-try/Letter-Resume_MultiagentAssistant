@@ -1,6 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_file
 import logging
 from agents.crewai_orchestrator import CrewaiOrchestrator
+import pdfkit
+import os
+
 
 app = Flask(__name__)
 
@@ -71,6 +74,27 @@ def index():
             skill_matching_score=sm_score,
         )
     return render_template('index.html', skill_matching_results='', content_generation_results='')
+
+
+# Route for generating PDF
+@app.route('/download-pdf', methods=['POST'])
+def download_pdf():
+    resume = request.form.get('resume')
+    cover_letter = request.form.get('cover_letter')
+
+    # Generate HTML content to pass to pdfkit
+    html_content = render_template('pdf_template.html', resume=resume, cover_letter=cover_letter)
+
+    # Generate PDF from HTML using pdfkit
+    pdf = pdfkit.from_string(html_content, False)
+
+    # Save the PDF to a temporary file
+    pdf_path = "static/generated_resume_coverletter.pdf"
+    with open(pdf_path, "wb") as f:
+        f.write(pdf)
+
+    # Return the generated PDF file to the user
+    return send_file(pdf_path, as_attachment=True, download_name="Resume_and_Cover_Letter.pdf")
 
 
 if __name__ == '__main__':
