@@ -10,7 +10,7 @@ class ContentGeneration:
     def __init__(self):
         
         # Initialize tools
-        self.search_tool = SerperDevTool()
+        # self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
         
         # Initialize agents
@@ -21,7 +21,8 @@ class ContentGeneration:
         return Agent(
             role="Resume Strategist",
             goal="Find all the best ways to make a resume stand out in the job market.",
-            tools=[self.scrape_tool, self.search_tool],
+            # tools=[self.scrape_tool, self.search_tool],
+            tools=[self.scrape_tool],
             verbose=True,
             backstory=(
                 "With a strategic mind and an eye for detail, you "
@@ -35,7 +36,8 @@ class ContentGeneration:
         return Agent(
             role="Cover Letter Strategist",
             goal="Find all the best ways to make a cover letter stand out in the job market.",
-            tools=[self.scrape_tool, self.search_tool],
+            # tools=[self.scrape_tool, self.search_tool],
+            tools=[self.scrape_tool],
             verbose=True,
             backstory=(
                 "With a strategic mind and an eye for detail, you "

@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 # Initialize CrewAI Orchestrator
 orchestrator = CrewaiOrchestrator()
 
-# Initialise websites for
+# Define websites for getting tips on content generation
 resume_tips_website = 'https://www.businessnewsdaily.com/3207-resume-writing-tips.html'
 coverLetter_tips_website = 'https://hbr.org/2022/05/how-to-write-a-cover-letter-that-sounds-like-you-and-gets-noticed'
 
@@ -23,7 +23,7 @@ def index():
     if request.method == 'POST':
         # Get user inputs
         user_writeup = request.form['user_writeup']
-        user_website = request.form['user_website']
+        # user_website = request.form['user_website']
         job_description = request.form['job_description']
         education = request.form['education']
         name = request.form['name']
@@ -35,7 +35,7 @@ def index():
         try:
             skill_matching_results, sm_score = orchestrator.execute_skill_matching(
                 job_posting_url=job_description,
-                user_website=user_website,
+                # user_website=user_website,
                 user_writeup=user_writeup
             )
         except Exception as e:

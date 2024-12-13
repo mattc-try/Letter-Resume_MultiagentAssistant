@@ -22,7 +22,7 @@ class CrewaiOrchestrator:
         print("Using OpenAI API Key:", self.openai_api_key)
 
         # Initialize tools
-        self.search_tool = SerperDevTool()
+        # self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
 
         # Initialize SkillMatching instance
@@ -54,7 +54,7 @@ class CrewaiOrchestrator:
         self.flask_api_endpoint = 'http://localhost:5000/api'  # Update as needed
 
 
-    def execute_skill_matching(self, job_posting_url, user_website, user_writeup):
+    def execute_skill_matching(self, job_posting_url, user_writeup):
         """
         Executes the skill matching crew with the provided inputs.
 
@@ -83,7 +83,7 @@ class CrewaiOrchestrator:
 
         inputs = {
             'job_posting_url': job_posting_url,
-            'user_website': user_website,
+            # 'user_website': user_website,
             'user_writeup': user_writeup
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)

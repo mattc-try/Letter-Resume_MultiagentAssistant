@@ -6,7 +6,7 @@ from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 class SkillMatching:
     def __init__(self):
         # Initialize tools
-        self.search_tool = SerperDevTool()
+        # self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
 
         # Initialize agents
@@ -18,7 +18,8 @@ class SkillMatching:
         return Agent(
             role="Job Researcher",
             goal="Analyze job postings to extract key skills, experiences, and qualifications required.",
-            tools=[self.scrape_tool, self.search_tool],
+            # tools=[self.scrape_tool, self.search_tool],
+            tools=[self.scrape_tool],
             verbose=True,
             backstory=(
                 "As a Job Researcher, your prowess in navigating and extracting critical "
@@ -31,7 +32,8 @@ class SkillMatching:
         return Agent(
             role="Personal Candidate Profiler",
             goal="Compile comprehensive professional profiles to help candidates stand out in the job market.",
-            tools=[self.scrape_tool, self.search_tool],
+            # tools=[self.scrape_tool, self.search_tool],
+            #tools=[self.scrape_tool],
             verbose=True,
             backstory=(
                 "Equipped with analytical prowess, you synthesize information from candidate profiles "
@@ -65,14 +67,12 @@ class SkillMatching:
         return Task(
     description=(
         "Compile a detailed personal and professional profile "
-        "using scraping the website the user optionally provided: ({user_website}) and his personal write-up "
-        "({user_writeup}). Utilize tools to extract and "
-        "synthesize information from these sources."
+        # "using scraping the website the user optionally provided: ({user_website}) and his personal write-up "
+        "from the personal write-up ({user_writeup})."
     ),
     expected_output=(
         "A comprehensive profile document that includes skills, "
-        "project experiences, contributions, interests, and "
-        "communication style."
+        "project experiences, contributions, interests. "
     ),
     agent=self.profiler,
     async_execution=True
@@ -127,4 +127,4 @@ class SkillMatching:
     
         # Compute the score
         score = (sum(matching_skills) / total_weight) * 100
-        return round(score, 2)  # Return a rounded score for better readability
+        return (round(score, 2), matching_skills)  # Return a rounded score for better readability
