@@ -19,6 +19,8 @@ class CrewaiOrchestrator:
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "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")
         os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
         os.environ["SERPER_API_KEY"] = self.get_serper_api_key()
+        print("Using OpenAI API Key:", self.openai_api_key)
+
         # Initialize tools
         self.search_tool = SerperDevTool()
         self.scrape_tool = ScrapeWebsiteTool()
@@ -88,7 +90,7 @@ class CrewaiOrchestrator:
         score = classs.compute_score(result.raw)
         return result, score 
     
-    def execute_cover_letter_generation(self, skill_matching_output, generated_cv):
+    def execute_cover_letter_generation(self, skill_matching_output, generated_cv, coverLetter_tips_website):
         """
         Executes the content generation crew using skill matching results.
 
@@ -112,12 +114,13 @@ class CrewaiOrchestrator:
 
         inputs = {
             'skill_matching_output': skill_matching_output,
-            'generated_cv': generated_cv
+            'generated_cv': generated_cv,
+            'coverLetter_tips_website': coverLetter_tips_website,
         }
         result = self.content_generation_crew.kickoff(inputs=inputs)
         return result
     
-    def execute_resume_generation(self, skill_matching_output, name, work_experience, edu):
+    def execute_resume_generation(self, skill_matching_output, name, work_experience, edu, resume_tips_website):
         """
         Executes the content generation crew using skill matching results.
 
@@ -143,7 +146,8 @@ class CrewaiOrchestrator:
             'skill_matching_output': skill_matching_output,
             'name': name,
             'work_experience': work_experience,
-            'edu': edu
+            'edu': edu,
+            'resume_tips_website': resume_tips_website,
         }
         result = self.content_generation_crew.kickoff(inputs=inputs)
         return result

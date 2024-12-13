@@ -14,6 +14,10 @@ logger = logging.getLogger(__name__)
 # Initialize CrewAI Orchestrator
 orchestrator = CrewaiOrchestrator()
 
+# Initialise websites for
+resume_tips_website = 'https://www.businessnewsdaily.com/3207-resume-writing-tips.html'
+coverLetter_tips_website = 'https://hbr.org/2022/05/how-to-write-a-cover-letter-that-sounds-like-you-and-gets-noticed'
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -45,11 +49,11 @@ def index():
 
         # # Step 2: Generate Resume and Cover Letter
         logger.info("Generating resume and cover letter...")
-        cv = orchestrator.execute_resume_generation(skill_matching_results, name, experience, education)
+        cv = orchestrator.execute_resume_generation(skill_matching_results, name, experience, education, resume_tips_website)
         if not cv:
             return jsonify({"error": "Content generation failed."}), 500
         
-        cover = orchestrator.execute_cover_letter_generation(skill_matching_results, cv)
+        cover = orchestrator.execute_cover_letter_generation(skill_matching_results, cv, coverLetter_tips_website)
         if not cover:
             return jsonify({"error": "Content generation failed."}), 500
 

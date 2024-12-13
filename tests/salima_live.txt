@@ -1,64 +1,46 @@
-Ibn tofaïl university - KénitraIbn tofaïl university - Kénitra
+GENERAL DESCRIPTION:
+I am interested in the recent progress in artificial intelligence, natural language processing, and generative AI. I want to dive deep into research in these areas, build strong research partnerships, teach, guide others, and talk about the newest ideas in AI. I would be happy to be a part of these growing fields and make a meaningful contribution to them.
+
+
+EDUCATION:
+- Ibn tofaïl university - KénitraIbn tofaïl university - Kénitra
 Thèse de doctorat, Computer Science | Artificial IntelligenceThèse de doctorat, Computer Science | Artificial Intelligence Dec 2016 - Nov 2021Dec 2016 - Nov 2021
 
-        - Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix Marseille University, France.- Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix Marseille University, France.
+- Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix Marseille University, France.- Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix Marseille University, France.
 
 
-Université Sidi Mohammed Ben Abdellah-FèsUniversité Sidi Mohammed Ben Abdellah-Fès
+- Université Sidi Mohammed Ben Abdellah-FèsUniversité Sidi Mohammed Ben Abdellah-Fès
 Master's degree, Information Systems, Networks and MultimediaMaster's degree, Information Systems, Networks and Multimedia Sep 2014 - Jul 2016Sep 2014 - Jul 2016
 
 
-Aix-Marseille UniversityAix-Marseille University
+- Aix-Marseille UniversityAix-Marseille University
 Bachelor's degree, Computer Systems and SoftwareBachelor's degree, Computer Systems and Software Sep 2013 - Sep 2014Sep 2013 - Sep 2014
 
 
-Université Sidi Mohammed Ben Abdellah-FèsUniversité Sidi Mohammed Ben Abdellah-Fès
+- Université Sidi Mohammed Ben Abdellah-FèsUniversité Sidi Mohammed Ben Abdellah-Fès
 Bachelor's degree, Computer Science and Mathematics (SMI)Bachelor's degree, Computer Science and Mathematics (SMI) Sep 2010 - Jul 2013Sep 2010 - Jul 2013
 
-Lycée
+- Lycée
 Baccalauréat sciences mathématiquesBaccalauréat sciences mathématiques Jun 2010
 
 
 
-https://scholar.google.com/citations?user=OawQSiAAAAAJ
+WORK EXPERIENCE:
+- Postdoctoral Researcher at Université du Luxembourg · Full-time Jul 2022 - Present · 2 yrs 6 mos
+		Tasks:
+		- Conduct research in Natural Language Processing.
+        	- Conduct research in Generative AI for Education.
+
+- Doctoral Researcher at Ibn tofaïl university - Kénitra, Dec 2016 - Nov 2021 · 5 yrs, On-site
+
+- Ph.D. in Computer Science and Artificial Intelligence from Ibn Tofail University, Morocco, in co-direction with Aix Marseille University, France
+
+- Mathematics Teacher for High School Students at MINISTERE DE L'EDUCATION NATIONALE (MAROC) · Part-time, Sep 2017 - Jun 2021 · 3 yrs 10 mos
+
+- Visiting Researcher at Aix-Marseille Université, Jun 2018 - Aug 2018 · 3 mos
+	Tasks:
+        - worked on Transformer-based Models and Pre-trained Language Models (Transformer, BERT, GPT-2)
 
 
-I am interested in the recent progress in artificial intelligence, natural language processing, and generative AI. I want to dive deep into research in these areas, build strong research partnerships, teach, guide others, and talk about the newest ideas in AI. I would be happy to be a part of these growing fields and make a meaningful contribution to them.
-
-
-
-
-
-
-Postdoctoral Researcher
-Université du Luxembourg · Full-timeUniversité du Luxembourg · Full-time Jul 2022 - Present · 2 yrs 6 mosJul 2022 to Present · 2 yrs 6 mos Luxembourg · On-siteLuxembourg · On-site
-
-        - Conduct research in Natural Language Processing.
-        - Conduct research in Generative AI for Education.
-
-Doctoral Researcher
-Ibn tofaïl university - Kénitra · Self-employedIbn tofaïl university - Kénitra · Self-employed Dec 2016 - Nov 2021 · 5 yrsDec 2016 to Nov 2021 · 5 yrs On-siteOn-site
-
-        - Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco, in co-direction with Aix Marseille University, France. 
-
-
-
-Mathematics TeacherMathematics Teacher
-MINISTERE DE L'EDUCATION NATIONALE (MAROC) · Part-timeMINISTERE DE L'EDUCATION NATIONALE (MAROC) · Part-time Sep 2017 - Jun 2021 · 3 yrs 10 mosSep 2017 to Jun 2021 · 3 yrs 10 mos On-siteOn-site
-
-        - Teach Mathematics for High School Students
-
-
-
-Visiting ResearcherVisiting Researcher
-Aix-Marseille Université · Self-employedAix-Marseille Université · Self-employed Jun 2018 - Aug 2018 · 3 mosJun 2018 to Aug 2018 · 3 mos On-siteOn-site
-
-        - Transformer-based Models
-        - Pre-trained Language Models (Transformer, BERT, GPT-2)
-
-
-Network Engineer InternNetwork Engineer Intern
-Huawei · InternshipHuawei · Internship Jun 2017 - Aug 2017 · 3 mosJun 2017 to Aug 2017 · 3 mos Rabat, Rabat-Salé-Kénitra, MarocRabat, Rabat-Salé-Kénitra, Maroc
-
-        - Project: Design and Implementation of a GSM-R Radio Network along the ONCF Railway
-        Network
+- Network Engineer Intern at Huawei · Internship Huawei · Jun 2017 - Aug 2017 · 3 mos, Rabat-Salé-Kénitra, Maroc
+        - Project: Design and Implementation of a GSM-R Radio Network along the ONCF Railway Network

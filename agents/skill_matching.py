@@ -16,7 +16,7 @@ class SkillMatching:
 
     def _create_researcher_agent(self):
         return Agent(
-            role="Tech Job Researcher",
+            role="Job Researcher",
             goal="Analyze job postings to extract key skills, experiences, and qualifications required.",
             tools=[self.scrape_tool, self.search_tool],
             verbose=True,
@@ -29,7 +29,7 @@ class SkillMatching:
 
     def _create_profiler_agent(self):
         return Agent(
-            role="Personal Profiler for Engineers",
+            role="Personal Candidate Profiler",
             goal="Compile comprehensive professional profiles to help candidates stand out in the job market.",
             tools=[self.scrape_tool, self.search_tool],
             verbose=True,
