@@ -47,20 +47,13 @@ def index():
             skill_matching_results = "Skill matching failed or returned no results."
 
         logger.info("Skill matching completed.")
+        
 
         # # Step 2: Generate Resume and Cover Letter
         logger.info("Generating resume and cover letter...")
-        cv = orchestrator.execute_resume_generation(skill_matching_results, name, experience, education, resume_tips_website)
-        if not cv:
+        cv, cover = orchestrator.execute_content_generation(skill_matching_results, name, experience, education, resume_tips_website,coverLetter_tips_website)
+        if not cv or not cover:
             return jsonify({"error": "Content generation failed."}), 500
-        
-        cover = orchestrator.execute_cover_letter_generation(skill_matching_results, cv, coverLetter_tips_website)
-        if not cover:
-            return jsonify({"error": "Content generation failed."}), 500
-
-        # resume = content_generation_results.get('resume', 'Error generating resume.')
-        # cover_letter = content_generation_results.get('cover_letter', 'Error generating cover letter.')
-        # logger.info("Content generation completed.")
 
         # Step 3: Feedback and Refinement (Optional)
         # Placeholder for feedback and refinement logic

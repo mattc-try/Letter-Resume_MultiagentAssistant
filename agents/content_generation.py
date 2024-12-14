@@ -64,14 +64,15 @@ class ContentGeneration:
                 "A resume that effectively highlights the candidate's "
                 "qualifications and experiences relevant to the job."
             ),
-            agent=self.resume_strategist
+            agent=self.resume_strategist,
+            async_execution=False
         )
     
     def _create_cover_letter_creation_task(self):
         return Task(
             description=(
                 "Using the profile and job requirements obtained from {skill_matching_output}"
-                "and cv {generated_cv}, create a cover letter with all necessary information to highlight the most "
+                "and resume, create a cover letter with all necessary information to highlight the most "
                 "relevant areas. Employ tools to adjust and enhance the "
                 "cover letter content and apply the tips from {coverLetter_tips_website}. Make sure this is a cover letter of very good quality "
                 "but don't make up any information. Write the content to better reflect the candidate's "
@@ -82,5 +83,6 @@ class ContentGeneration:
                 "A cover letter that effectively highlights the candidate's "
                 "qualifications and experiences relevant to the job."
             ),
-            agent=self.cover_letter_strategist
+            agent=self.cover_letter_strategist,
+            async_execution=False
         )
