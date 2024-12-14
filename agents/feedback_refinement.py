@@ -2,8 +2,9 @@ from textblob import TextBlob
 import textstat
 import spacy
 from transformers import pipeline
+from crewai import Agent, Task
 
-class Feedback:
+class FeedbackRefinement:
     def __init__(self):
         # Initialize transformer-based grammar correction pipeline
         self.grammar_corrector = pipeline("text2text-generation", model="prithivida/grammar_error_correcter_v1")
@@ -224,47 +225,132 @@ class Feedback:
             recommendations.append("Overall, the content looks good. Minor improvements can be made for clarity and tone.")
 
         return recommendations
+    
 
-# Example usage:
-if __name__ == "__main__":
-    # Sample resume content
-    resume_content = """
-    Salima Lamsiyah
-    [Contact Information]
 
-    Summary:
-    Experienced Postdoctoral Researcher with a Ph.D. in Computer Science and AI, specializing in NLP and Generative AI models.
-    Skilled in communication and research.
-
-    Education:
-    Ph.D. in Computer Science and AI
-
-    Skills:
-    - Artificial Intelligence
-    - Natural Language Processing
-    - Generative AI Models
-    """
-
-    # Sample cover letter content
-    cover_letter_content = """
-    Dear Hiring Manager,
-
-    I am writing to express my interest in the Generative AI Engineer position.
-    My experience with NLP and large language models demonstrates my ability
-    to contribute effectively. Thank you for your consideration.
-
-    Sincerely,
-    Candidate Name
-    """
-
-    agent = Feedback()
-
-    # Evaluate resume
-    resume_feedback = agent.evaluate_content(resume_content, content_type="resume")
-    print("Resume Feedback:")
-    print(resume_feedback)
-
-    # Evaluate cover letter
-    cover_letter_feedback = agent.evaluate_content(cover_letter_content, content_type="cover_letter")
-    print("\nCover Letter Feedback:")
-    print(cover_letter_feedback)
+    def _create_feedback_compiling_agent(self):
+        return Agent(
+            role="Feedback Compiler",
+            goal="Aggregate and organize feedback from various sources to form a comprehensive overview.",
+            tools=[self.scrape_tool],
+            verbose=True,
+            backstory=(
+                "As a Feedback Compiler, you excel at gathering diverse feedback from multiple channels, "
+                "ensuring that all insights are meticulously organized and ready for further analysis and refinement."
+            )
+        )
+    
+    def _create_feedback_refinement_agent(self):
+        return Agent(
+            role="Feedback Refiner",
+            goal="Enhance and clarify the compiled feedback to ensure it is actionable and precise.",
+            tools=[self.search_tool],
+            verbose=True,
+            backstory=(
+                "As a Feedback Refiner, your attention to detail ensures that all compiled feedback is polished, "
+                "eliminating ambiguities and enhancing clarity to make the feedback actionable and valuable."
+            )
+        )
+    
+    def _create_refining_strategist_agent(self):
+        return Agent(
+            role="Refining Strategist",
+            goal="Develop strategies to implement the refined feedback effectively into resumes and cover letters.",
+            tools=[],
+            verbose=True,
+            backstory=(
+                "As a Refining Strategist, you craft effective strategies to incorporate refined feedback into "
+                "resumes and cover letters, ensuring that the documents are optimized for impact and relevance."
+            )
+        )
+    
+    def _create_resume_refiner_agent(self):
+        return Agent(
+            role="Resume Refiner",
+            goal="Apply refined feedback to enhance the resume, ensuring it highlights relevant skills and experiences.",
+            tools=[],
+            verbose=True,
+            backstory=(
+                "As a Resume Refiner, you specialize in enhancing resumes by integrating refined feedback, "
+                "highlighting pertinent skills and experiences to align with job requirements and industry standards."
+            )
+        )
+    
+    def _create_cover_letter_refiner_agent(self):
+        return Agent(
+            role="Cover Letter Refiner",
+            goal="Incorporate refined feedback into the cover letter to make it compelling and tailored to the job application.",
+            tools=[],
+            verbose=True,
+            backstory=(
+                "As a Cover Letter Refiner, you focus on embedding refined feedback into cover letters, "
+                "crafting compelling narratives that are tailored to specific job applications and employer expectations."
+            )
+        )
+    
+    def _create_feedback_generation_task(self):
+        return Task(
+            description=(
+                "Generate comprehensive feedback based on the user's input and job description, "
+                "focusing on strengths, areas for improvement, and alignment with job requirements."
+            ),
+            expected_output=(
+                "A structured feedback report that includes sections for strengths, areas for improvement, "
+                "and specific recommendations aligned with the job description."
+            ),
+            agent=self.feedback_compiling,
+            dependencies=[],  # No dependencies for initial feedback generation
+            async_execution=False
+        )
+    
+    def _create_feedback_refinement_task(self):
+        return Task(
+            description=(
+                "Refine the generated feedback to enhance clarity and actionability."
+            ),
+            expected_output=(
+                "An enhanced feedback report with clear, actionable items and refined language."
+            ),
+            agent=self.feedback_refinement,
+            dependencies=[self.feedback_generation_task],
+            async_execution=False
+        )
+    
+    def _create_refining_strategy_task(self):
+        return Task(
+            description=(
+                "Develop strategies to implement the refined feedback into the resume and cover letter."
+            ),
+            expected_output=(
+                "A set of strategies outlining how to incorporate feedback into the resume and cover letter effectively."
+            ),
+            agent=self.refining_strategist,
+            dependencies=[self.feedback_refinement_task],
+            async_execution=False
+        )
+    
+    def _create_resume_refinement_task(self):
+        return Task(
+            description=(
+                "Refine the user's resume by integrating the generated feedback, emphasizing relevant skills and experiences."
+            ),
+            expected_output=(
+                "An enhanced resume that effectively highlights the user's strengths and aligns with the job requirements."
+            ),
+            agent=self.resume_refiner,
+            dependencies=[self.refining_strategy_task],
+            async_execution=False
+        )
+    
+    def _create_cover_letter_refinement_task(self):
+        return Task(
+            description=(
+                "Refine the user's cover letter by incorporating the generated feedback, ensuring it is compelling and tailored to the job."
+            ),
+            expected_output=(
+                "An optimized cover letter that is tailored to the job application, showcasing the user's qualifications and enthusiasm."
+            ),
+            agent=self.cover_letter_refiner,
+            dependencies=[self.refining_strategy_task],
+            async_execution=False
+        )

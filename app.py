@@ -55,8 +55,9 @@ def index():
         if not cv or not cover:
             return jsonify({"error": "Content generation failed."}), 500
 
-        # Step 3: Feedback and Refinement (Optional)
-        # Placeholder for feedback and refinement logic
+        # Step 3: Feedback and Refinement
+        logger.info("Feedback and refinement...")
+        feedback = orchestrator.execute_feedback_refinement(cv, cover)
 
         print("\n\n\nSkill Matching Results:", skill_matching_results)
         print("\n\n\nResume:", cv)

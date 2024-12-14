@@ -8,7 +8,7 @@ from transformers import pipeline
 from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 from agents.skill_matching import SkillMatching
 from agents.content_generation import ContentGeneration
-from agents.feedback import Feedback
+from agents.feedback_refinement import FeedbackRefinement
 
 
 class CrewaiOrchestrator:
@@ -136,7 +136,7 @@ class CrewaiOrchestrator:
         return cv, cover
     
 
-    def execute_feedback_refinement(self, resume, cover):
+    def execute_feedback_refinement(self, resume, cover, user_fb):
         """
         Gives feedback to the user based on the generated content.
 
@@ -146,10 +146,37 @@ class CrewaiOrchestrator:
         Returns:
             str: Feedback response.
         """
-        feedback_agent = Feedback()
+        fb = FeedbackRefinement()
 
-        resumefb = feedback_agent.evaluate_content(resume, content_type="resume")
-        coverfb = feedback_agent.evaluate_content(cover, content_type="cover_letter")
+        resumefb = fb.evaluate_content(resume, content_type="resume")
+        coverfb = fb.evaluate_content(cover, content_type="cover_letter")
+
+                # Initialize Crew for Content Generation
+        self.feedback_crew = Crew(
+            agents=[
+                fb.feedback_compiling,
+                fb.feedback_refinement,
+                fb.refining_strategist
+                fb.resume_refiner,
+                fb.cover_letter_refiner
+            ],
+            tasks=[
+                fb.feedback_generation_task,
+                fb.resume_refinement_task,
+                fb.cover_letter_refinement_task
+            ],
+            verbose=True,
+            full_output=True
+        )
+
+        inputs = {
+            'user_fb': user_fb,
+            'resume': resume,
+            'resume_fb': resumefb, 
+            'cover': cover,
+            'cover_fb': coverfb
+        }
+        result = self.feedback_crew.kickoff(inputs=inputs)
         return resumefb, coverfb
     
 
