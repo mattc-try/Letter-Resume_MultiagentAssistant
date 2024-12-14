@@ -18,6 +18,7 @@ orchestrator = CrewaiOrchestrator()
 resume_tips_website = 'https://www.businessnewsdaily.com/3207-resume-writing-tips.html'
 coverLetter_tips_website = 'https://hbr.org/2022/05/how-to-write-a-cover-letter-that-sounds-like-you-and-gets-noticed'
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
@@ -67,7 +68,7 @@ def index():
         print("\n\n\nSkill Matching Results:", skill_matching_results)
         print("\n\n\nResume:", cv)
         print("\n\n\nCover Letter:", cover)
-        print("\n\n\nSkill Matching Score:", sm_score)
+        print("\n\n\nSkill Matching Score:", sm_score, "%")
 
         # Render results
         return render_template(
