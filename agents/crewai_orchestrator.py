@@ -8,6 +8,7 @@ from transformers import pipeline
 from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 from agents.skill_matching import SkillMatching
 from agents.content_generation import ContentGeneration
+from agents.feedback import Feedback
 
 
 class CrewaiOrchestrator:
@@ -90,37 +91,7 @@ class CrewaiOrchestrator:
         score = classs.compute_score(result.raw)
         return result, score 
     
-    def execute_cover_letter_generation(self, skill_matching_output, generated_cv, coverLetter_tips_website):
-        """
-        Executes the content generation crew using skill matching results.
-
-        Args:
-            skill_matching_output (dict): Output from the skill matching process.
-
-        Returns:
-            dict: Content generation results.
-        """
-
-        # Initialize Crew for Content Generation
-        self.content_generation_crew = Crew(
-            agents=[
-                self.cover_letter_strategist
-            ],
-            tasks=[
-                self.cover_letter_creation_task
-            ],
-            verbose=True
-        )
-
-        inputs = {
-            'skill_matching_output': skill_matching_output,
-            'generated_cv': generated_cv,
-            'coverLetter_tips_website': coverLetter_tips_website,
-        }
-        result = self.content_generation_crew.kickoff(inputs=inputs)
-        return result
-    
-    def execute_resume_generation(self, skill_matching_output, name, work_experience, edu, resume_tips_website):
+    def execute_content_generation(self, skill_matching_output, name, work_experience, edu, resume_tips_website, coverLetter_tips_website):
         """
         Executes the content generation crew using skill matching results.
 
@@ -135,11 +106,14 @@ class CrewaiOrchestrator:
         self.content_generation_crew = Crew(
             agents=[
                 self.resume_strategist,
+                self.cover_letter_strategist
             ],
             tasks=[
                 self.resume_creation_task,
+                self.cover_letter_creation_task
             ],
-            verbose=True
+            verbose=True,
+            full_output=True
         )
 
         inputs = {
@@ -148,10 +122,35 @@ class CrewaiOrchestrator:
             'work_experience': work_experience,
             'edu': edu,
             'resume_tips_website': resume_tips_website,
+            'coverLetter_tips_website': coverLetter_tips_website,
         }
         result = self.content_generation_crew.kickoff(inputs=inputs)
-        return result
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        # for task in result.tasks_output:
+        #     # print(task.task_id)
+        #     print(task)
+        cv = result.tasks_output[0]
+        cover = result.tasks_output[1]
+        print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+        
+        return cv, cover
     
+
+    def execute_feedback_refinement(self, resume, cover):
+        """
+        Gives feedback to the user based on the generated content.
+
+        Args:
+            feedback (str): User feedback on the generated content.
+
+        Returns:
+            str: Feedback response.
+        """
+        feedback_agent = Feedback()
+
+        resumefb = feedback_agent.evaluate_content(resume, content_type="resume")
+        coverfb = feedback_agent.evaluate_content(cover, content_type="cover_letter")
+        return resumefb, coverfb
     
 
     def send_to_flask(self, data, endpoint):

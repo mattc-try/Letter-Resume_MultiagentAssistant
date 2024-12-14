@@ -1,6 +1,9 @@
 GENERAL DESCRIPTION:
 I am interested in the recent progress in artificial intelligence, natural language processing, and generative AI. I want to dive deep into research in these areas, build strong research partnerships, teach, guide others, and talk about the newest ideas in AI. I would be happy to be a part of these growing fields and make a meaningful contribution to them.
 
+PERSONAL URL: (google scholar)
+https://scholar.google.com/citations?user=OawQSiAAAAAJ
+
 
 EDUCATION:
 - Ibn tofaïl university - KénitraIbn tofaïl university - Kénitra
@@ -44,3 +47,7 @@ WORK EXPERIENCE:
 
 - Network Engineer Intern at Huawei · Internship Huawei · Jun 2017 - Aug 2017 · 3 mos, Rabat-Salé-Kénitra, Maroc
         - Project: Design and Implementation of a GSM-R Radio Network along the ONCF Railway Network
+
+
+JOB TO APPLY:
+https://jobs.deloitte.lu/job/Luxembourg-Generative-AI-Engineer-%28mf%29-Job-based-in-Luxembourg/1150060501/
