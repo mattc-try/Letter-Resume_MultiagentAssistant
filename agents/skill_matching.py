@@ -33,7 +33,7 @@ class SkillMatching:
             role="Personal Candidate Profiler",
             goal="Compile comprehensive professional profiles to help candidates stand out in the job market.",
             # tools=[self.scrape_tool, self.search_tool],
-            #tools=[self.scrape_tool],
+            tools=[self.scrape_tool],
             verbose=True,
             backstory=(
                 "Equipped with analytical prowess, you synthesize information from candidate profiles "
@@ -67,9 +67,7 @@ class SkillMatching:
         return Task(
     description=(
         "Compile a detailed personal and professional profile "
-        # "using scraping the website the user optionally provided: ({user_website}) and his personal write-up "
-        "from the personal write-up ({user_writeup})."
-    ),
+        "using scraping the website the user optionally provided: ({user_website}) and their personal write-up ({user_writeup}). "    ),
     expected_output=(
         "A comprehensive profile document that includes skills, "
         "project experiences, contributions, interests. "
@@ -131,9 +129,5 @@ class SkillMatching:
 
         # Compute the score
         score = (sum(matching_skills) / total_weight) * 100
-
-        print("Matching skills weights:", matching_skills)
-        print("Missing skills weights:", missing_skills)
-        print("Total weight:", total_weight)
 
         return round(score, 2)  # Return a rounded score for better readability

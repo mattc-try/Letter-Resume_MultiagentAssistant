@@ -55,7 +55,7 @@ class CrewaiOrchestrator:
         self.flask_api_endpoint = 'http://localhost:5000/api'  # Update as needed
 
 
-    def execute_skill_matching(self, job_posting_url, user_writeup):
+    def execute_skill_matching(self, job_posting_url, user_website, user_writeup):
         """
         Executes the skill matching crew with the provided inputs.
 
@@ -84,7 +84,7 @@ class CrewaiOrchestrator:
 
         inputs = {
             'job_posting_url': job_posting_url,
-            # 'user_website': user_website,
+            'user_website': user_website,
             'user_writeup': user_writeup
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)
@@ -151,12 +151,12 @@ class CrewaiOrchestrator:
         resumefb = fb.evaluate_content(resume, content_type="resume")
         coverfb = fb.evaluate_content(cover, content_type="cover_letter")
 
-                # Initialize Crew for Content Generation
+        # Initialize Crew for Feedback
         self.feedback_crew = Crew(
             agents=[
                 fb.feedback_compiling,
                 fb.feedback_refinement,
-                fb.refining_strategist
+                fb.refining_strategist,
                 fb.resume_refiner,
                 fb.cover_letter_refiner
             ],

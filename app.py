@@ -24,7 +24,7 @@ def index():
     if request.method == 'POST':
         # Get user inputs
         user_writeup = request.form['user_writeup']
-        # user_website = request.form['user_website']
+        user_website = request.form['user_website']
         job_description = request.form['job_description']
         education = request.form['education']
         name = request.form['name']
@@ -36,7 +36,7 @@ def index():
         try:
             skill_matching_results, sm_score = orchestrator.execute_skill_matching(
                 job_posting_url=job_description,
-                # user_website=user_website,
+                user_website=user_website,
                 user_writeup=user_writeup
             )
         except Exception as e:
@@ -51,13 +51,13 @@ def index():
 
         # # Step 2: Generate Resume and Cover Letter
         logger.info("Generating resume and cover letter...")
-        cv, cover = orchestrator.execute_content_generation(skill_matching_results, name, experience, education, resume_tips_website,coverLetter_tips_website)
+        cv, cover = orchestrator.execute_content_generation(skill_matching_results, name, experience, education, resume_tips_website, coverLetter_tips_website)
         if not cv or not cover:
             return jsonify({"error": "Content generation failed."}), 500
 
         # Step 3: Feedback and Refinement
-        logger.info("Feedback and refinement...")
-        feedback = orchestrator.execute_feedback_refinement(cv, cover)
+        # logger.info("Feedback and refinement...")
+        # feedback = orchestrator.execute_feedback_refinement(cv, cover)
 
         print("\n\n\nSkill Matching Results:", skill_matching_results)
         print("\n\n\nResume:", cv)
