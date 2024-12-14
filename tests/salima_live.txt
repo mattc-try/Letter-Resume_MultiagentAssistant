@@ -1,27 +1,27 @@
 GENERAL DESCRIPTION:
-I am interested in the recent progress in artificial intelligence, natural language processing, and generative AI. I want to dive deep into research in these areas, build strong research partnerships, teach, guide others, and talk about the newest ideas in AI. I would be happy to be a part of these growing fields and make a meaningful contribution to them.
+I am interested in the recent progress in artificial intelligence, natural language processing, and generative AI. I want to dive deep into research in these areas, build strong research partnerships, teach, guide others, and talk about the newest ideas in AI. I would be happy to be a part of these growing fields and make a meaningful contribution to them. I speak English and French.
 
 
 EDUCATION:
-- Ibn tofaïl university - KénitraIbn tofaïl university - Kénitra
-Thèse de doctorat, Computer Science | Artificial IntelligenceThèse de doctorat, Computer Science | Artificial Intelligence Dec 2016 - Nov 2021Dec 2016 - Nov 2021
+- Ibn tofaïl university - Kénitra
+PhD in Computer Science | Artificial Intelligence, Dec 2016 - Nov 2021Dec 2016 - Nov 2021
 
-- Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix Marseille University, France.- Ph.D. in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix Marseille University, France.
-
-
-- Université Sidi Mohammed Ben Abdellah-FèsUniversité Sidi Mohammed Ben Abdellah-Fès
-Master's degree, Information Systems, Networks and MultimediaMaster's degree, Information Systems, Networks and Multimedia Sep 2014 - Jul 2016Sep 2014 - Jul 2016
+- PhD in Computer Science | Artificial Intelligence from Ibn Tofail University, Morocco in co-direction with Aix-Marseille University, France
 
 
-- Aix-Marseille UniversityAix-Marseille University
-Bachelor's degree, Computer Systems and SoftwareBachelor's degree, Computer Systems and Software Sep 2013 - Sep 2014Sep 2013 - Sep 2014
+- Université Sidi Mohammed Ben Abdellah-Fès
+Master's degree, Information Systems, Networks and Multimedia, Sep 2014 - Jul 2016Sep 2014 - Jul 2016
 
 
-- Université Sidi Mohammed Ben Abdellah-FèsUniversité Sidi Mohammed Ben Abdellah-Fès
-Bachelor's degree, Computer Science and Mathematics (SMI)Bachelor's degree, Computer Science and Mathematics (SMI) Sep 2010 - Jul 2013Sep 2010 - Jul 2013
+- Aix-Marseille University
+Bachelor's degree, Computer Systems and Software, Sep 2013 - Sep 2014Sep 2013 - Sep 2014
+
+
+- Université Sidi Mohammed Ben Abdellah-Fès
+Bachelor's degree, Computer Science and Mathematics (SMI), Sep 2010 - Jul 2013
 
 - Lycée
-Baccalauréat sciences mathématiquesBaccalauréat sciences mathématiques Jun 2010
+Baccalauréat sciences mathématiques Jun 2010
 
 
 
@@ -33,11 +33,11 @@ WORK EXPERIENCE:
 
 - Doctoral Researcher at Ibn tofaïl university - Kénitra, Dec 2016 - Nov 2021 · 5 yrs, On-site
 
-- Ph.D. in Computer Science and Artificial Intelligence from Ibn Tofail University, Morocco, in co-direction with Aix Marseille University, France
+- PhD in Computer Science and Artificial Intelligence from Ibn Tofail University, Morocco, in co-direction with Aix-Marseille University, France
 
 - Mathematics Teacher for High School Students at MINISTERE DE L'EDUCATION NATIONALE (MAROC) · Part-time, Sep 2017 - Jun 2021 · 3 yrs 10 mos
 
-- Visiting Researcher at Aix-Marseille Université, Jun 2018 - Aug 2018 · 3 mos
+- Visiting Researcher at Aix-Marseille University, Jun 2018 - Aug 2018 · 3 mos
 	Tasks:
         - worked on Transformer-based Models and Pre-trained Language Models (Transformer, BERT, GPT-2)
 
