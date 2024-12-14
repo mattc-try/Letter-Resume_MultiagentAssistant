@@ -45,10 +45,12 @@ class CrewaiOrchestrator:
         # Initialize Agents for Content Generation
         self.resume_strategist = content_generation._create_resume_strategist()
         self.cover_letter_strategist = content_generation._create_cover_letter_strategist()
+        self.resume_formatter = content_generation._create_resume_formatter()
 
         # Initialize Tasks for Content Generation
         self.resume_creation_task = content_generation._create_resume_creation_task()
         self.cover_letter_creation_task = content_generation._create_cover_letter_creation_task()
+        self.resume_formatting_task = content_generation._create_resume_formatting_task()
 
 
         # Define Flask API endpoint
@@ -85,7 +87,7 @@ class CrewaiOrchestrator:
         inputs = {
             'job_posting_url': job_posting_url,
             'user_website': user_website,
-            'user_writeup': user_writeup
+            'user_writeup': user_writeup,
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)
         score = classs.compute_score(result.raw)
@@ -106,11 +108,13 @@ class CrewaiOrchestrator:
         self.content_generation_crew = Crew(
             agents=[
                 self.resume_strategist,
-                self.cover_letter_strategist
+                self.cover_letter_strategist,
+                self.resume_formatter
             ],
             tasks=[
                 self.resume_creation_task,
-                self.cover_letter_creation_task
+                self.cover_letter_creation_task,
+                self.resume_formatting_task
             ],
             verbose=True,
             full_output=True
