@@ -57,10 +57,6 @@ def index():
         if not cv or not cover:
             return jsonify({"error": "Content generation failed."}), 500
 
-        # Step 3: Feedback and Refinement
-        # logger.info("Feedback and refinement...")
-        # feedback = orchestrator.execute_feedback_refinement(cv, cover)
-
         print("\n\n\nSkill Matching Results:", skill_matching_results)
         print("\n\n\nResume:", cv)
         print("\n\n\nCover Letter:", cover)
@@ -73,9 +69,30 @@ def index():
             cover_letter=cover,
             skill_matching_results=skill_matching_results,
             skill_matching_score=sm_score,
+            askuserfb=True
         )
     return render_template('index.html', skill_matching_results='', content_generation_results='')
 
+
+@app.route('/refine', methods=['POST', 'GET'])
+def refine():
+    # Collect feedback from the user
+    user_feedback = request.form['userfb']
+    resume = request.form['resume']
+    cover_letter = request.form['cover_letter']
+
+    # Refine the content based on feedback
+    logger.info("Refining content based on user feedback...")
+    refined_resume, refined_cover = orchestrator.execute_feedback_refinement(resume, cover_letter, user_feedback)
+    if not refined_resume or not refined_cover:
+        return jsonify({"error": "Refinement failed."}), 500
+
+    return render_template(
+        'index.html',
+        resume=refined_resume,
+        cover_letter=refined_cover,
+        askuserfb=True
+    )
 
 # Route for generating PDF
 @app.route('/download-pdf', methods=['POST'])

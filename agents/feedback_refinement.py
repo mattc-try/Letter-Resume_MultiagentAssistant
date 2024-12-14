@@ -3,6 +3,7 @@ import textstat
 import spacy
 from transformers import pipeline
 from crewai import Agent, Task
+from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 
 class FeedbackRefinement:
     def __init__(self):
@@ -11,6 +12,20 @@ class FeedbackRefinement:
         
         # Load spaCy model for NLP tasks
         self.nlp = spacy.load('en_core_web_sm')
+
+        self.scrape_tool = ScrapeWebsiteTool()
+
+        self.feedback_compiling=self._create_feedback_compiling_agent()
+        self.feedback_refinement=self._create_feedback_refinement_agent()
+        self.refining_strategist=self._create_refining_strategist_agent()
+        self.resume_refiner=self._create_resume_refiner_agent()
+        self.cover_letter_refiner=self._create_cover_letter_refiner_agent()
+
+
+        self.feedback_generation_task=self._create_feedback_generation_task()
+        self.feedback_refinement_task=self._create_feedback_refinement_task()
+        self.refining_strategy_task=self._create_refining_strategy_task()
+
 
     def evaluate_content(self, content, content_type="resume"):
         """
@@ -244,7 +259,7 @@ class FeedbackRefinement:
         return Agent(
             role="Feedback Refiner",
             goal="Enhance and clarify the compiled feedback to ensure it is actionable and precise.",
-            tools=[self.search_tool],
+            tools=[],
             verbose=True,
             backstory=(
                 "As a Feedback Refiner, your attention to detail ensures that all compiled feedback is polished, "

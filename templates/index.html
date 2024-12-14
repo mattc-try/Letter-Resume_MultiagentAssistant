@@ -78,6 +78,24 @@
     </section>
 {% endif %}
 
+<!-- Feedback Form -->
+{% if askuserfb %}
+<section class="feedback-section">
+    <form method="post" action="/refine">
+        <label for="userfb">Give your feedback:</label>
+        <input type="text" id="userfb" name="userfb" required>
+        
+        <!-- Hidden Inputs to Pass Resume and Cover Letter -->
+        <input type="hidden" name="resume" value="{{ resume | safe }}">
+        <input type="hidden" name="cover_letter" value="{{ cover_letter | safe }}">
+        
+        <button type="submit">Submit Feedback</button>
+    </form>
+</section>
+{% endif %}
+
+
+
 <!-- Button to trigger PDF generation -->
 {% if resume and cover_letter %}
 <button id="download-pdf" onclick="downloadPdf()">Download PDF</button>

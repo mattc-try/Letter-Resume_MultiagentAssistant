@@ -155,21 +155,23 @@ class CrewaiOrchestrator:
         fb = FeedbackRefinement()
 
         resumefb = fb.evaluate_content(resume, content_type="resume")
+        print(resumefb)
         coverfb = fb.evaluate_content(cover, content_type="cover_letter")
+        print(coverfb)
 
         # Initialize Crew for Feedback
         self.feedback_crew = Crew(
             agents=[
-                fb.feedback_compiling,
-                fb.feedback_refinement,
-                fb.refining_strategist,
-                fb.resume_refiner,
-                fb.cover_letter_refiner
+                fb._create_feedback_compiling_agent(),
+                fb._create_feedback_refinement_agent(),
+                fb._create_refining_strategist_agent(),
+                fb._create_resume_refiner_agent(),
+                fb._create_cover_letter_refiner_agent()
             ],
             tasks=[
-                fb.feedback_generation_task,
-                fb.resume_refinement_task,
-                fb.cover_letter_refinement_task
+                fb._create_feedback_generation_task(),
+                fb._create_resume_refinement_task(),
+                fb._create_cover_letter_refinement_task()
             ],
             verbose=True,
             full_output=True
@@ -183,6 +185,9 @@ class CrewaiOrchestrator:
             'cover_fb': coverfb
         }
         result = self.feedback_crew.kickoff(inputs=inputs)
+        fb = result.tasks_output[0]
+        resumefb = result.tasks_output[1]
+        coverfb = result.tasks_output[2]
         return resumefb, coverfb
     
 
