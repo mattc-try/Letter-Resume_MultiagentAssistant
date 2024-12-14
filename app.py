@@ -37,7 +37,9 @@ def index():
             skill_matching_results, sm_score = orchestrator.execute_skill_matching(
                 job_posting_url=job_description,
                 user_website=user_website,
-                user_writeup=user_writeup
+                user_writeup=user_writeup,
+                edu=education,
+                work_experience=experience
             )
         except Exception as e:
             logger.error(f"Error during skill matching: {e}")

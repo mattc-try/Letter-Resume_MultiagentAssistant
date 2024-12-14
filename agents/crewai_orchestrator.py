@@ -57,7 +57,7 @@ class CrewaiOrchestrator:
         self.flask_api_endpoint = 'http://localhost:5000/api'  # Update as needed
 
 
-    def execute_skill_matching(self, job_posting_url, user_website, user_writeup):
+    def execute_skill_matching(self, job_posting_url, user_website, user_writeup, edu, work_experience):
         """
         Executes the skill matching crew with the provided inputs.
 
@@ -88,6 +88,8 @@ class CrewaiOrchestrator:
             'job_posting_url': job_posting_url,
             'user_website': user_website,
             'user_writeup': user_writeup,
+            'edu': edu,
+            'work_experience': work_experience
         }
         result = self.skill_matching_crew.kickoff(inputs=inputs)
         score = classs.compute_score(result.raw)

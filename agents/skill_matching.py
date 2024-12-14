@@ -67,7 +67,9 @@ class SkillMatching:
         return Task(
     description=(
         "Compile a detailed personal and professional profile "
-        "using scraping the website the user optionally provided: ({user_website}) and their personal write-up ({user_writeup}). "    ),
+        "using scraping the website the user optionally provided ({user_website}), their personal write-up ({user_writeup}), "
+        "education ({edu}), and work experience ({work_experience}). "
+        ),
     expected_output=(
         "A comprehensive profile document that includes skills, "
         "project experiences, contributions, interests. "
@@ -84,7 +86,7 @@ class SkillMatching:
                 "and extract relevant information that aligns with the job description."
             ),
             expected_output="A detailed report highlighting matched skills, missing skills, and tailored suggestions. "
-            "write the skills with the following formats: MATCHING_SKILL_[importance] or MISSING_SKILL_[importance] "
+            "write the skills with the following formats: MATCHING_SKILL_[importance] or MISSING_SKILL_[importance], "
             "where importance can be LOW, HIGH, or CRITICAL. Remember to always put the importance values between square brackets. "
             "This is an example: 'MATCHING_SKILL_[HIGH]: Artificial Intelligence Expertise'. ",
             agent=self.skill_matcher,

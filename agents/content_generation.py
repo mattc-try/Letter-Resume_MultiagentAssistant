@@ -68,13 +68,14 @@ class ContentGeneration:
             description=(
                 "Using the profile and job requirements obtained from "
                 "previous tasks, create a resume for {name} with all necessary sections to highlight the most "
-                "relevant areas, such as Introduction, . Employ tools to adjust and enhance the "
+                "relevant areas. Employ tools to adjust and enhance the "
                 "resume content and apply the tips from {resume_tips_website}. "
                 "Make sure this is a resume of very good quality and clear structure, "
                 "but don't make up any information. Write every section, "
-                "including a Introduction section, education section with {edu}, work experience section with the {work_experience}, skills section from {skill_matching_output}. "
+                "including an Introduction section, education section with {edu}, work experience section with the {work_experience}, skills section from {skill_matching_output}. "
                 "All to better reflect the candidate's abilities and how it matches the job posting. "
-                "Also add a section about Language skills if you have this information about {name}."
+                "Also add a section about Language skills if you have this information about {name}. "
+                "Only add candidate's skills that match the job ones, and no suggestion for improvement."
             ),
             expected_output=(
                 "A clear and comphrehensive resume that effectively highlights the candidate's "
