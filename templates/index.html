@@ -34,13 +34,16 @@
 
     <!-- Creative Header -->
     <header>
-        <h1>Job Application Helper</h1>
+        <h1>
+            <a href="/" style="text-decoration: none; color: inherit;">Job Application Helper</a>
+        </h1>
     </header>
 
     <!-- Main Content -->
     <main>
 
     <!-- Input Form -->
+    {% if show_form %}
     <section class="form-section section-shape">
         <form method="post">
             <!-- Name Input -->
@@ -71,6 +74,7 @@
             <button type="submit">Submit</button>
         </form>
     </section>
+    {% endif %}
 
     <!-- Skill Matching Results -->
     {% if skill_matching_results %}
@@ -123,16 +127,30 @@
     {% if askuserfb %}
     <section class="feedback-section">
         <form method="post" action="/refine">
-            <label for="userfb">Feedback on resume and cover letter:</label>
-            <input type="text" id="userfb" name="userfb" required>
+            <label for="userfb" style="font-size: 1.2rem;">Your feedback on the resume and cover letter:</label>
+            <textarea id="userfb" name="userfb" rows="3" cols="40" required></textarea>
             
             <!-- Hidden Inputs to Pass Resume and Cover Letter -->
             <input type="hidden" name="resume" value="{{ resume | safe }}">
             <input type="hidden" name="cover_letter" value="{{ cover_letter | safe }}">
             
-            <button type="submit">Submit Feedback</button>
+            <button type="submit" style="font-size: 0.9rem;">Submit Feedback</button>
+            <h3 style="font-size: 1rem; margin-top: 10px;">Resume Score: {{ rsc | safe }}%</h3>
+            <h3 style="font-size: 1rem; margin-top: 5px;">Cover Letter Score: {{ csc | safe }}%</h3>
+            
+            {% if fb %}
+            <details style="margin-top: 10px;">
+                <summary style="cursor: pointer; font-weight: bold; font-size: 0.9rem;">
+                    View Calculated Feedback
+                </summary>
+                <div id="skill-results" class="markdown-outputb scrollable-output">
+                    {{ fb | safe }}
+                </div>
+            </details>
+            {% endif %}
         </form>
     </section>
+    
     {% endif %}
     </main>
 

@@ -1,3 +1,16 @@
+# MIT License
+# 
+# Copyright (c) 2024 mattc-try (GitHub)
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
 from textblob import TextBlob
 import textstat
 import spacy
@@ -6,6 +19,14 @@ from crewai import Agent, Task
 from crewai_tools import ScrapeWebsiteTool, SerperDevTool
 
 class FeedbackRefinement:
+    """
+    A class to evaluate and refine resumes or cover letters. This includes:
+    - Grammar correction
+    - Readability scoring
+    - Sentiment analysis
+    - Structural analysis
+    - Generating refined content following feedback
+    """
     def __init__(self):
         # Initialize transformer-based grammar correction pipeline
         self.grammar_corrector = pipeline("text2text-generation", model="prithivida/grammar_error_correcter_v1")
@@ -51,22 +72,11 @@ class FeedbackRefinement:
         }
         feedback['readability'] = readability_scores
 
-        # 3. Sentiment Analysis using TextBlob
-        blob = TextBlob(content)
-        polarity = blob.sentiment.polarity
-        subjectivity = blob.sentiment.subjectivity
-        feedback['sentiment'] = {
-            'polarity': polarity,
-            'subjectivity': subjectivity
-        }
+        feedback['sentiment'] = self.assess_tone(content)
 
         # 4. Structural Analysis
         structure_feedback = self.analyze_structure(content, content_type)
         feedback['structure'] = structure_feedback
-
-        # 5. Tone Assessment
-        tone_feedback = self.assess_tone(content)
-        feedback['tone'] = tone_feedback
 
         # 6. Scoring and Score Explanation
         score, score_comment = self.calculate_score(feedback)
@@ -77,7 +87,7 @@ class FeedbackRefinement:
         recommendations = self.generate_recommendations(feedback, content_type)
         feedback['recommendations'] = recommendations
 
-        return feedback
+        return feedback, feedback['score']
 
     def correct_grammar(self, content):
         """
@@ -159,6 +169,7 @@ class FeedbackRefinement:
     def assess_tone(self, content):
         blob = TextBlob(content)
         polarity = blob.sentiment.polarity  # [-1.0, 1.0]
+        subjectivity = blob.sentiment.subjectivity
         
         if polarity > 0.1:
             tone = 'Positive'
@@ -169,43 +180,53 @@ class FeedbackRefinement:
 
         return {
             'polarity': polarity,
-            'tone': tone
-        }
+            'tone': tone,
+            'subjectivity': subjectivity
+        }   
 
     def calculate_score(self, feedback):
         """
-        A simple scoring mechanism combining grammar quality, readability, and sentiment.
-        Scores will be between 0 and 100. Also provides a reason for the score.
+        A scoring mechanism combining grammar quality, readability (Flesch-Kincaid & Gunning Fog), and sentiment.
+        Scores will be between 0 and 100. Less punitive to produce better scores.
         """
         # Start with a base score
         score = 100.0
         reasons = []
 
-        # Deduct points based on grammar errors
+        # 1. Grammar Errors: Reduced Deduction Severity
         grammar_errors = feedback['grammar']['error_count']
         if grammar_errors > 0:
-            score -= grammar_errors * 2
-            reasons.append(f"{grammar_errors} grammar/spelling error(s) reduced the score.")
+            penalty = grammar_errors * 0.5  # Reduce impact (0.5 points per error)
+            if grammar_errors <= 2:  # Allow up to 2 errors with no penalty
+                penalty = 0
+            score -= penalty
+            if penalty > 0:
+                reasons.append(f"{grammar_errors} grammar/spelling error(s) reduced the score by {penalty:.2f} points.")
 
-        # Adjust score based on readability (flesch_kincaid_grade as a proxy)
-        fk_grade = feedback['readability']['flesch_kincaid_grade']
-        if fk_grade > 12:
-            diff = (fk_grade - 12) * 1.5
+
+        # 3. Gunning Fog Index Adjustment
+        gunning_fog = feedback['readability']['gunning_fog']
+        if gunning_fog > 14:  # Target readability for professional documents
+            diff = (gunning_fog - 14) * 0.75  # Lower the multiplier
+            if diff > 3:  # Cap the maximum penalty at 3 points
+                diff = 3
             score -= diff
-            reasons.append(f"High reading level (Flesch-Kincaid {fk_grade:.2f}) reduced the score by {diff:.2f} points.")
+            reasons.append(f"Complex sentence structure (Gunning Fog Index {gunning_fog:.2f}) reduced the score by {diff:.2f} points.")
 
-        # Adjust based on sentiment polarity (encourage slightly positive/neutral)
+        # 4. Sentiment Polarity: More Lenient Penalty
         polarity = feedback['sentiment']['polarity']
-        if polarity < -0.1:
-            score -= 10
-            reasons.append("Negative tone reduced the score by 10 points.")
+        if polarity < -0.3:  # Penalize only for strong negativity
+            score -= 5  # Reduced penalty for very negative tone
+            reasons.append("Strong negative tone reduced the score by 5 points.")
 
         # Bound the score between 0 and 100
         score = max(0, min(100, score))
 
+        # Add default message if no deductions
         if not reasons:
             reasons.append("No major issues; score remained high.")
 
+        # Combine score explanation
         score_comment = "Score Explanation: " + " ".join(reasons)
 
         return score, score_comment
@@ -222,7 +243,7 @@ class FeedbackRefinement:
             recommendations.append("Try simplifying the language to improve readability.")
 
         # Tone recommendations
-        if feedback['tone']['tone'] == 'Negative':
+        if feedback['sentiment']['tone'] == 'Negative':
             recommendations.append("Aim for a more positive or neutral tone to appeal to a broader audience.")
 
         # Structural recommendations

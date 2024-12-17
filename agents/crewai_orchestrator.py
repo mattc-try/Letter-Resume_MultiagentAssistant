@@ -1,4 +1,16 @@
-# crewai_orchestrator.py
+# MIT License
+# 
+# Copyright (c) 2024 mattc-try (GitHub)
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
 
 import os
 import warnings
@@ -17,10 +29,9 @@ class CrewaiOrchestrator:
         warnings.filterwarnings('ignore')
 
         # Initialize API keys and environment variables
-        self.openai_api_key = os.getenv("OPENAI_API_KEY", "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")
+        self.openai_api_key = os.getenv("OPENAI_API_KEY", "fallback-openai-api-key")
         os.environ["OPENAI_MODEL_NAME"] = 'gpt-4-turbo'
         os.environ["SERPER_API_KEY"] = self.get_serper_api_key()
-        print("Using OpenAI API Key:", self.openai_api_key)
 
         # Initialize tools
         # self.search_tool = SerperDevTool()
@@ -154,9 +165,9 @@ class CrewaiOrchestrator:
         """
         fb = FeedbackRefinement()
 
-        resumefb = fb.evaluate_content(resume, content_type="resume")
+        resumefb, rsc = fb.evaluate_content(resume, content_type="resume")
         print(resumefb)
-        coverfb = fb.evaluate_content(cover, content_type="cover_letter")
+        coverfb, csc = fb.evaluate_content(cover, content_type="cover_letter")
         print(coverfb)
 
         # Initialize Crew for Feedback
@@ -184,10 +195,39 @@ class CrewaiOrchestrator:
             'cover': cover,
         }
         result = self.feedback_crew.kickoff(inputs=inputs)
-        fb = result.tasks_output[0]
-        resumefb = result.tasks_output[1]
-        coverfb = result.tasks_output[2]
-        return resumefb, coverfb
+        feed = result.tasks_output[0]
+        resume_refined = result.tasks_output[1]
+        cover_refined = result.tasks_output[2]
+
+
+        _, rsc = fb.evaluate_content(resume_refined.raw, content_type="resume")
+        _, csc = fb.evaluate_content(cover_refined.raw, content_type="cover_letter")
+
+        return feed, resume_refined, cover_refined, rsc, csc
+    
+    def calculate_feedback_score(self, content, content_type):
+        """
+        Calculates the feedback score based on the user feedback and the generated content.
+
+        Args:
+            content (str): Generated content.
+            user_feedback (str): User feedback on the content.
+
+        Returns:
+            float: Feedback score.
+        """
+        score = 0.0
+        fb = FeedbackRefinement()
+
+        fb, score = fb.evaluate_content(content.raw, content_type)
+
+        return fb, score
+
+    
+
+
+
+
     
 
     def send_to_flask(self, data, endpoint):
@@ -252,16 +292,5 @@ class CrewaiOrchestrator:
 
         return content_generation_results
     
-    def get_openai_api_key(self):
-        return os.getenv('sk-RkFZVILgHMDgIz7GcMMRu-05S0qnAHD5kgBSdxxdMJT3BlbkFJ2TpIkjqkdqeSQf0fWB8EYdX_wyuMZuSQnMJ0UaeRsA', 'fallback-openai-api-key')
-
     def get_serper_api_key(self):
         return os.getenv('1a8aaaa7f0219ee9e9d82d0f4c1fbc650fccf5d3', 'fallback-serper-api-key')
-
-# # Example usage (this should be called from your Flask routes or other parts of the app)
-# if __name__ == "__main__":
-#     orchestrator = CrewaiOrchestrator()
-#     job_url = 'https://jobs.lever.co/AIFund/6c82e23e-d954-4dd8-a734-c0c2c5ee00f1?lever-origin=applied&lever-source%5B%5D=AI+Fund'
-#     linkedin_url = 'https://www.linkedin.com/in/matteo-steinbach-724547284/'
-#     final_results = orchestrator.orchestrate(job_url, linkedin_url)
-#     print("Content Generation Results:", final_results)

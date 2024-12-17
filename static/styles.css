@@ -221,28 +221,54 @@ button:hover {
     font-family: 'Courier New', Courier, monospace;
 }
 
+.markdown-outputb {
+    background: var(--beige);
+    padding: 15px;
+    border: 3px solid var(--bold-red);
+    border-radius: 8px;
+    overflow: auto;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.scrollable-output {
+    max-height: 300px; /* Fixed height for scrollability */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    padding: 10px;
+    border: 1px solid #ccc; /* Optional: add a border */
+    background-color: #f9f9f9; /* Optional: light background for better visibility */
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem; /* Adjust font size for readability */
+    line-height: 1.4;
+}
+
 /* Feedback Section */
 .feedback-section {
     position: fixed;
-    top: 100px;
+    top: 120px; /* Adjust position */
     right: 20px;
-    padding: 20px;
-    border-radius: 12px; 
-
+    /* padding: 12px; 
+    border-radius: 12px;  */
+    font-size: 0.9rem; /* General smaller font */
+    width: 350px; /* Smaller width */
 }
 
 .feedback-section button {
-    background-color: var(--bright-yellow);
-    color: var(--black);
-    font-weight: bold;
-    border: none;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 0.9rem;
+    padding: 8px 10px; /* Smaller button */
 }
 
-.feedback-section button:hover {
-    background-color: var(--bright-blue);
-    color: var(--white);
+textarea {
+    width: 100%; /* Adjust to container */
+    font-size: 0.8rem;
 }
+
+h3 {
+    font-size: 0.9rem; /* Smaller font size for scores */
+    margin-top: 5px; /* Tight spacing */
+}
+
 
 
 details {
