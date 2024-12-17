@@ -1,50 +1,205 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+/* General Reset */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-h1 {
-    background-color: #007BFF;
-    color: white;
-    padding: 20px;
+/* Color Palette */
+:root {
+    --bright-yellow: #F7B801;
+    --bold-red: #FF4F5E;
+    --bright-blue: #3D5AF1;
+    --beige: #F3E5D8;
+    --pink: #FF9AA2;
+    --white: #FFFFFF;
+    --black: #1B1B1E;
+}
+
+/* Main Content Stacking */
+header, main, footer {
+    position: relative; /* Ensure stacking context */
+    z-index: 1; /* Bring these elements in front */
+}
+
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--white);
+    color: var(--black);
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Header */
+header {
+    background-color: var(--bright-yellow);
     text-align: center;
+    padding: 25px 0;
+    position: relative;
+    z-index: 2;
 }
 
+
+header h1 {
+    color: var(--black);
+    font-size: 2.2rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+
+/* Form Styles */
 form {
     margin: 20px auto;
     max-width: 600px;
-    padding: 20px;
-    background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--bright-blue);
 }
 
-input, button, textarea {
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: var(--black);
+    font-size: 1rem;
+}
+
+input, textarea, button {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px solid var(--bold-red);
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
 }
 
 textarea {
-    height: 150px;
     resize: vertical;
+    height: 80px;
 }
 
 button {
-    background-color: #007BFF;
-    color: white;
+    background-color: var(--bright-blue);
+    color: var(--white);
     font-weight: bold;
+    border: none;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.1rem;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--bold-red);
 }
+
+
+
+/* Random Background Shapes */
+.background-shapes {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none; /* Ensures shapes don’t interfere with interaction */
+}
+
+.background-shapes div {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: float 10s infinite linear alternate;
+}
+
+/* Colors and Sizes for Shapes */
+.background-shapes div:nth-child(1) {
+    background-color: var(--bold-red); /* Red */
+    width: 80px;
+    height: 80px;
+}
+
+.background-shapes div:nth-child(2) {
+    background-color: var(--bright-blue); /* Blue */
+    width: 100px;
+    height: 100px;
+}
+
+.background-shapes div:nth-child(3) {
+    background-color: var(--pink); /* Pink */
+    width: 120px;
+    height: 120px;
+}
+
+.background-shapes div:nth-child(4) {
+    background-color: var(--bright-yellow); /* Beige */
+    width: 90px;
+    height: 90px;
+}
+
+.background-shapes div:nth-child(5) {
+    background-color: var(--bold-red); /* Red */
+    width: 70px;
+    height: 70px;
+}
+
+.background-shapes div:nth-child(6) {
+    background-color: var(--bright-blue); /* Blue */
+    width: 60px;
+    height: 60px;
+}
+
+.background-shapes div:nth-child(7) {
+    background-color: var(--bright-yellow); /* Pink */
+    width: 70px;
+    height: 70px;
+}
+
+.background-shapes div:nth-child(8) {
+    background-color: var(--beige); /* Beige */
+    width: 90px;
+    height: 90px;
+}
+
+.background-shapes div:nth-child(9) {
+    background-color: var(--bright-blue); /* Blue */
+    width: 110px;
+    height: 110px;
+}
+
+.background-shapes div:nth-child(10) {
+    background-color: var(--bold-red); /* Red */
+    width: 60px;
+    height: 60px;
+}
+
+.background-shapes div:nth-child(11) {
+    background-color: var(--bright-yellow); /* Beige */
+    width: 80px;
+    height: 80px;
+}
+
+.background-shapes div:nth-child(12) {
+    background-color: var(--pink); /* Pink */
+    width: 100px;
+    height: 100px;
+}
+
+
 
 .result-section {
     margin: 20px auto;
@@ -52,58 +207,116 @@ button:hover {
     padding: 20px;
     background: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--bright-blue);
     border-radius: 8px;
 }
 
 .markdown-output {
-    background: #f9f9f9;
+    background: var(--beige);
     padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 3px solid var(--bold-red);
+    border-radius: 8px;
     overflow: auto;
     white-space: pre-wrap;
     font-family: 'Courier New', Courier, monospace;
 }
 
-
 /* Feedback Section */
 .feedback-section {
     position: fixed;
-    top: 100px; /* Adjust this value to control the vertical position */
-    right: 20px; /* Adjust this value to control the horizontal position */
-    width: 300px;
-    padding: 15px;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    z-index: 1000; /* Ensures it stays above other elements */
-}
+    top: 100px;
+    right: 20px;
+    padding: 20px;
+    border-radius: 12px; 
 
-.feedback-section form {
-    display: flex;
-    flex-direction: column;
-}
-
-.feedback-section label {
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.feedback-section input, .feedback-section button {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
 }
 
 .feedback-section button {
-    background-color: #007BFF;
-    color: white;
+    background-color: var(--bright-yellow);
+    color: var(--black);
     font-weight: bold;
-    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .feedback-section button:hover {
-    background-color: #0056b3;
+    background-color: var(--bright-blue);
+    color: var(--white);
 }
+
+.download-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px; /* Smaller padding */
+    background-color: var(--bright-blue);
+    color: var(--white);
+    font-size: 0.75rem; /* Smaller font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduced shadow */
+    line-height: 1; /* Tighten button text spacing */
+}
+
+.download-button:hover {
+    background-color: var(--bold-red);
+    color: var(--white);
+}
+
+
+
+details {
+    background: var(--beige);
+    border: 2px solid var(--bright-blue);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+summary {
+    outline: none;
+    font-size: 1rem;
+    color: var(--bright-blue);
+}
+
+details[open] summary {
+    color: var(--bold-red);
+}
+
+#skill-results {
+    padding: 10px;
+    background-color: var(--beige);
+    border: 1px solid var(--bold-red);
+    border-radius: 5px;
+}
+
+
+
+/* Wrapper to hold content and footer */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure the wrapper covers the full viewport height */
+}
+
+/* Main content area */
+main {
+    flex: 1; /* Allows the main content to expand */
+    padding: 20px;
+}
+
+/* Footer styling */
+footer {
+    background-color: var(--bright-yellow);
+    text-align: center;
+    color: var(--black);
+    font-weight: bold;
+    padding: 10px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    font-size: 1rem;
+}
+
+

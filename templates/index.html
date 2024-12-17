@@ -12,136 +12,161 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <h1>Job Application Helper</h1>
-    
+    <div class="wrapper">
+            <!-- Background Shapes -->
+        <div class="background-shapes">
+        <div style="top: 10%; left: 10%;"></div>
+        <div style="top: 20%; right: 15%;"></div> 
+        <div style="top: 40%; left: 25%;"></div> 
+        <div style="bottom: 20%; right: 30%;"></div>  
+        <div style="bottom: 10%; left: 5%;"></div>
+        <div style="bottom: 5%; right: 10%;"></div> 
+             
+          
+        <div style="top: 5%; right: 5%; width: 70px; height: 70px;"></div>
+        <div style="top: 15%; left: 35%; width: 90px; height: 90px;"></div>
+        <div style="bottom: 25%; left: 15%; width: 110px; height: 110px;"></div>
+        <div style="bottom: 15%; right: 5%; width: 60px; height: 60px;"></div>
+        <div style="top: 30%; right: 25%; width: 80px; height: 80px;"></div>  
+        <div style="top: 45%; left: 50%; width: 100px; height: 100px;"></div>
+               
+            </div>
+
+    <!-- Creative Header -->
+    <header>
+        <h1>Job Application Helper</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
     <!-- Input Form -->
-    <form method="post">
-        <!-- Name Input -->
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" name="name" required>
-        <br>
+    <section class="form-section section-shape">
+        <form method="post">
+            <!-- Name Input -->
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
 
-        <!-- Education Input -->
-        <label for="education">Your Education:</label>
-        <input type="text" id="education" name="education" required>
-        <br>
+            <!-- Education Input -->
+            <label for="education">Your Education:</label>
+            <textarea type="text" id="education" name="education" rows="6" cols="50" required></textarea>
 
-        <!-- Professional Experience Input -->
-        <label for="experience">Your Professional Experience:</label>
-        <input type="text" id="experience" name="experience" required>
-        <br>
+            <!-- Professional Experience Input -->
+            <label for="experience">Your Professional Experience:</label>
+            <textarea type="text" id="experience" name="experience" rows="6" cols="50" required></textarea>
 
-        <!-- Website URL Input -->
-        <label for="user_website">User Personal Website URL (optional):</label>
-        <input type="text" id="user_website" name="user_website">
-        <br>
+            <!-- Website URL Input -->
+            <label for="user_website">Your Personal Website URL (optional):</label>
+            <input type="text" id="user_website" name="user_website">
 
-        <!-- Personal Write-Up Input -->
-        <label for="user_writeup">Your Personal Write-Up:</label>
-        <textarea id="user_writeup" name="user_writeup" rows="6" cols="50" required></textarea>
-        <br>
+            <!-- Personal Write-Up Input -->
+            <label for="user_writeup">Your Personal Write-Up:</label>
+            <textarea id="user_writeup" name="user_writeup" rows="6" cols="50" required></textarea>
 
-        <!-- Job Posting Input -->
-        <label for="job_description">Job Posting URL:</label>
-        <input type="text" id="job_description" name="job_description" required>
-        <br>
+            <!-- Job Posting Input -->
+            <label for="job_description">Job Posting URL:</label>
+            <input type="text" id="job_description" name="job_description" required>
 
-        <!-- Submit Button -->
-        <button type="submit">Submit</button>
-    </form>
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+    </section>
 
+    <!-- Skill Matching Results -->
     {% if skill_matching_results %}
     <section class="result-section">
-        <h2>Skill Matching Results</h2>
-        <div id="skill-results" class="markdown-output">
+            <!-- Dropdown for Skill Results -->
+    <details>
+        <summary style="cursor: pointer; font-weight: bold; font-size: 1.1rem;">
+            View Skill Matching Results
+        </summary>
+        <div id="skill-results" class="markdown-output" style="margin-top: 10px;">
             {{ skill_matching_results | safe }}
         </div>
+    </details>
         <h3>Key Skills Matching Score: {{ skill_matching_score | safe }}%</h3>
     </section>
     {% endif %}
 
-{% if resume %}
+    <!-- Resume Results -->
+    {% if resume %}
     <section class="result-section">
         <h2>Resume Result</h2>
+        <button class="download-button" onclick="downloadPdf()">Download PDF</button>
         <div id="resume-results" class="markdown-output">
+
             {{ resume | safe }}
         </div>
     </section>
-{% endif %}
+    {% endif %}
 
-{% if cover_letter %}
+    <!-- Cover Letter Results -->
+    {% if cover_letter %}
     <section class="result-section">
         <h2>Cover Letter Result</h2>
+        <button class="download-button" onclick="downloadPdf()">Download PDF</button>
         <div id="cover-results" class="markdown-output">
             {{ cover_letter | safe }}
         </div>
     </section>
-{% endif %}
+    {% endif %}
 
-<!-- Feedback Form -->
-{% if askuserfb %}
-<section class="feedback-section">
-    <form method="post" action="/refine">
-        <label for="userfb">Give your feedback:</label>
-        <input type="text" id="userfb" name="userfb" required>
-        
-        <!-- Hidden Inputs to Pass Resume and Cover Letter -->
-        <input type="hidden" name="resume" value="{{ resume | safe }}">
-        <input type="hidden" name="cover_letter" value="{{ cover_letter | safe }}">
-        
-        <button type="submit">Submit Feedback</button>
-    </form>
-</section>
-{% endif %}
+    <!-- Feedback Form -->
+    {% if askuserfb %}
+    <section class="feedback-section">
+        <form method="post" action="/refine">
+            <label for="userfb">Give your feedback:</label>
+            <input type="text" id="userfb" name="userfb" required>
+            
+            <!-- Hidden Inputs to Pass Resume and Cover Letter -->
+            <input type="hidden" name="resume" value="{{ resume | safe }}">
+            <input type="hidden" name="cover_letter" value="{{ cover_letter | safe }}">
+            
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </section>
+    {% endif %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Job Application Helper | All Rights Reserved to me Matt cos im cool
+    </footer>
+
+</div>
 
 
 
-<!-- Button to trigger PDF generation -->
-{% if resume and cover_letter %}
-<button id="download-pdf" onclick="downloadPdf()">Download PDF</button>
-{% endif %}
+    <!-- PDF Download Script -->
+    <script>
+        function downloadPdf() {
+            const resumeContent = document.getElementById('resume-results').innerText;
+            const coverLetterContent = document.getElementById('cover-results').innerText;
 
-<script>
-    function downloadPdf() {
-        const resumeContent = document.getElementById('resume-results').innerText;
-        const coverLetterContent = document.getElementById('cover-results').innerText;
+            // Create a form to send the resume and cover letter content to the server
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/download-pdf';
 
-        // Create a form to send the resume and cover letter content to the server
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/download-pdf';
+            // Append resume and cover letter content to the form
+            const resumeInput = document.createElement('input');
+            resumeInput.type = 'hidden';
+            resumeInput.name = 'resume';
+            resumeInput.value = resumeContent;
+            form.appendChild(resumeInput);
 
-        // Append resume and cover letter content to the form
-        const resumeInput = document.createElement('input');
-        resumeInput.type = 'hidden';
-        resumeInput.name = 'resume';
-        resumeInput.value = resumeContent;
-        form.appendChild(resumeInput);
+            const coverLetterInput = document.createElement('input');
+            coverLetterInput.type = 'hidden';
+            coverLetterInput.name = 'cover_letter';
+            coverLetterInput.value = coverLetterContent;
+            form.appendChild(coverLetterInput);
 
-        const coverLetterInput = document.createElement('input');
-        coverLetterInput.type = 'hidden';
-        coverLetterInput.name = 'cover_letter';
-        coverLetterInput.value = coverLetterContent;
-        form.appendChild(coverLetterInput);
+            // Append the form to the document body and submit it
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
 
-        // Append the form to the document body and submit it
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
 
 </body>
 </html>
-
-
-
-    <!-- Resume and Cover Letter
-    {% if resume %}
-        <h2>Generated Resume</h2>
-        <pre>{{ resume }}</pre>
-    {% endif %}
-    
-    {% if cover_letter %}
-        <h2>Generated Cover Letter</h2>
-        <pre>{{ cover_letter }}</pre>
-    {% endif %} -->
