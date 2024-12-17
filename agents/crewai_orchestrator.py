@@ -18,7 +18,7 @@ class CrewaiOrchestrator:
 
         # Initialize API keys and environment variables
         self.openai_api_key = os.getenv("OPENAI_API_KEY", "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")
-        os.environ["OPENAI_MODEL_NAME"] = 'gpt-3.5-turbo'
+        os.environ["OPENAI_MODEL_NAME"] = 'gpt-4-turbo'
         os.environ["SERPER_API_KEY"] = self.get_serper_api_key()
         print("Using OpenAI API Key:", self.openai_api_key)
 
@@ -164,12 +164,11 @@ class CrewaiOrchestrator:
             agents=[
                 fb._create_feedback_compiling_agent(),
                 fb._create_feedback_refinement_agent(),
-                fb._create_refining_strategist_agent(),
                 fb._create_resume_refiner_agent(),
                 fb._create_cover_letter_refiner_agent()
             ],
             tasks=[
-                fb._create_feedback_generation_task(),
+                fb._create_feedback_task(),
                 fb._create_resume_refinement_task(),
                 fb._create_cover_letter_refinement_task()
             ],
@@ -179,10 +178,10 @@ class CrewaiOrchestrator:
 
         inputs = {
             'user_fb': user_fb,
+            'resumefb': resumefb,
+            'coverfb': coverfb,
             'resume': resume,
-            'resume_fb': resumefb, 
             'cover': cover,
-            'cover_fb': coverfb
         }
         result = self.feedback_crew.kickoff(inputs=inputs)
         fb = result.tasks_output[0]

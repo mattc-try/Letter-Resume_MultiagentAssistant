@@ -244,28 +244,6 @@ button:hover {
     color: var(--white);
 }
 
-.download-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 4px 8px; /* Smaller padding */
-    background-color: var(--bright-blue);
-    color: var(--white);
-    font-size: 0.75rem; /* Smaller font size */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Reduced shadow */
-    line-height: 1; /* Tighten button text spacing */
-}
-
-.download-button:hover {
-    background-color: var(--bold-red);
-    color: var(--white);
-}
-
-
 
 details {
     background: var(--beige);

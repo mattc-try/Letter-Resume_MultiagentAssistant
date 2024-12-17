@@ -17,14 +17,11 @@ class FeedbackRefinement:
 
         self.feedback_compiling=self._create_feedback_compiling_agent()
         self.feedback_refinement=self._create_feedback_refinement_agent()
-        self.refining_strategist=self._create_refining_strategist_agent()
         self.resume_refiner=self._create_resume_refiner_agent()
         self.cover_letter_refiner=self._create_cover_letter_refiner_agent()
 
 
-        self.feedback_generation_task=self._create_feedback_generation_task()
-        self.feedback_refinement_task=self._create_feedback_refinement_task()
-        self.refining_strategy_task=self._create_refining_strategy_task()
+        self.feedback_generation_task=self._create_feedback_task()
 
 
     def evaluate_content(self, content, content_type="resume"):
@@ -266,18 +263,7 @@ class FeedbackRefinement:
                 "eliminating ambiguities and enhancing clarity to make the feedback actionable and valuable."
             )
         )
-    
-    def _create_refining_strategist_agent(self):
-        return Agent(
-            role="Refining Strategist",
-            goal="Develop strategies to implement the refined feedback effectively into resumes and cover letters.",
-            tools=[],
-            verbose=True,
-            backstory=(
-                "As a Refining Strategist, you craft effective strategies to incorporate refined feedback into "
-                "resumes and cover letters, ensuring that the documents are optimized for impact and relevance."
-            )
-        )
+
     
     def _create_resume_refiner_agent(self):
         return Agent(
@@ -303,69 +289,46 @@ class FeedbackRefinement:
             )
         )
     
-    def _create_feedback_generation_task(self):
+    def _create_feedback_task(self):
         return Task(
             description=(
-                "Generate comprehensive feedback based on the user's input and job description, "
-                "focusing on strengths, areas for improvement, and alignment with job requirements."
-            ),
-            expected_output=(
-                "A structured feedback report that includes sections for strengths, areas for improvement, "
-                "and specific recommendations aligned with the job description."
-            ),
-            agent=self.feedback_compiling,
-            dependencies=[],  # No dependencies for initial feedback generation
-            async_execution=False
-        )
-    
-    def _create_feedback_refinement_task(self):
-        return Task(
-            description=(
+                "Generate comprehensive feedback based on the user's inputs {user_fb}, the "
+                "feedback from NLP calculations on the originals the resume feedback {resumefb} and cover letter feedback {coverfb} , "
+                "Focus on strengths, areas for improvement, and alignment with job requirements. "
                 "Refine the generated feedback to enhance clarity and actionability."
             ),
             expected_output=(
                 "An enhanced feedback report with clear, actionable items and refined language."
+                "The feedback should provide valuable insights to improve the user's resume and cover letter."
             ),
-            agent=self.feedback_refinement,
-            dependencies=[self.feedback_generation_task],
+            agent=self.feedback_compiling,
+            dependencies=[],
             async_execution=False
         )
     
-    def _create_refining_strategy_task(self):
-        return Task(
-            description=(
-                "Develop strategies to implement the refined feedback into the resume and cover letter."
-            ),
-            expected_output=(
-                "A set of strategies outlining how to incorporate feedback into the resume and cover letter effectively."
-            ),
-            agent=self.refining_strategist,
-            dependencies=[self.feedback_refinement_task],
-            async_execution=False
-        )
     
     def _create_resume_refinement_task(self):
         return Task(
             description=(
-                "Refine the user's resume by integrating the generated feedback, emphasizing relevant skills and experiences."
+                "Refine the user's resume {resume} by integrating the feedback, emphasizing relevant skills and experiences."
             ),
             expected_output=(
                 "An enhanced resume that effectively highlights the user's strengths and aligns with the job requirements."
             ),
             agent=self.resume_refiner,
-            dependencies=[self.refining_strategy_task],
+            dependencies=[self.feedback_generation_task],
             async_execution=False
         )
     
     def _create_cover_letter_refinement_task(self):
         return Task(
             description=(
-                "Refine the user's cover letter by incorporating the generated feedback, ensuring it is compelling and tailored to the job."
+                "Refine the user's cover letter {cover} by incorporating the generated feedback, ensuring it is compelling and tailored to the job."
             ),
             expected_output=(
                 "An optimized cover letter that is tailored to the job application, showcasing the user's qualifications and enthusiasm."
             ),
             agent=self.cover_letter_refiner,
-            dependencies=[self.refining_strategy_task],
-            async_execution=False
+            dependencies=[self.feedback_generation_task],
+            async_execution=True
         )

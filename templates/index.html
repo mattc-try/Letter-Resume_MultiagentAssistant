@@ -9,7 +9,7 @@
     <!-- Link to Marked.js for Markdown rendering -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Include jsPDF library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="wrapper">
@@ -92,11 +92,15 @@
     {% if resume %}
     <section class="result-section">
         <h2>Resume Result</h2>
-        <button class="download-button" onclick="downloadPdf()">Download PDF</button>
         <div id="resume-results" class="markdown-output">
 
             {{ resume | safe }}
         </div>
+        <button class="download-button" onclick="downloadPdf(`{{ resume | safe }}`, 'resume_result.pdf')">
+            Download PDF
+        </button>
+        
+        
     </section>
     {% endif %}
 
@@ -104,10 +108,14 @@
     {% if cover_letter %}
     <section class="result-section">
         <h2>Cover Letter Result</h2>
-        <button class="download-button" onclick="downloadPdf()">Download PDF</button>
         <div id="cover-results" class="markdown-output">
             {{ cover_letter | safe }}
         </div>
+        <button class="download-button" onclick="downloadPdf(`{{ cover_letter | safe }}`, 'cover_letter_result.pdf')">
+            Download PDF
+        </button>
+        
+        
     </section>
     {% endif %}
 
@@ -115,7 +123,7 @@
     {% if askuserfb %}
     <section class="feedback-section">
         <form method="post" action="/refine">
-            <label for="userfb">Give your feedback:</label>
+            <label for="userfb">Feedback on resume and cover letter:</label>
             <input type="text" id="userfb" name="userfb" required>
             
             <!-- Hidden Inputs to Pass Resume and Cover Letter -->
@@ -130,7 +138,7 @@
 
     <!-- Footer -->
     <footer>
-        © 2024 Job Application Helper | All Rights Reserved to me Matt cos im cool
+        © 2024 Job Application Helper | All Rights Reserved to me ToMattTo cos im cool and to Antonia
     </footer>
 
 </div>
@@ -139,33 +147,38 @@
 
     <!-- PDF Download Script -->
     <script>
-        function downloadPdf() {
-            const resumeContent = document.getElementById('resume-results').innerText;
-            const coverLetterContent = document.getElementById('cover-results').innerText;
-
-            // Create a form to send the resume and cover letter content to the server
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/download-pdf';
-
-            // Append resume and cover letter content to the form
-            const resumeInput = document.createElement('input');
-            resumeInput.type = 'hidden';
-            resumeInput.name = 'resume';
-            resumeInput.value = resumeContent;
-            form.appendChild(resumeInput);
-
-            const coverLetterInput = document.createElement('input');
-            coverLetterInput.type = 'hidden';
-            coverLetterInput.name = 'cover_letter';
-            coverLetterInput.value = coverLetterContent;
-            form.appendChild(coverLetterInput);
-
-            // Append the form to the document body and submit it
-            document.body.appendChild(form);
-            form.submit();
+        function downloadPdf(content, fileName) {
+            // Convert Markdown to HTML using Marked.js
+            const htmlContent = marked.parse(content);
+        
+            // Create a wrapper for styling
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <style>
+                    body { font-family: 'Times New Roman', serif; font-size: 12pt; color: #333; }
+                    h1, h2, h3 { font-weight: bold; text-align: center; margin: 10px 0; }
+                    p, div { margin: 10px 0; line-height: 1.5; }
+                    ul { margin: 10px 20px; }
+                    footer { text-align: center; font-size: 10pt; margin-top: 20px; }
+                </style>
+                <div>
+                    ${htmlContent}
+                </div>
+            `;
+        
+            // Use html2pdf to convert the styled HTML to PDF
+            const options = {
+                margin: 10,
+                filename: fileName,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+        
+            html2pdf().from(wrapper).set(options).save();
         }
-    </script>
+        </script>
+        
 
 
 </body>
