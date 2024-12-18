@@ -116,8 +116,8 @@ class SkillMatching:
         return Task(
             description=(
                 "Using job requirements and the user's profile, identify matching skills and missing skills. "
-                "Format: MATCHING_SKILL_[importance] or MISSING_SKILL_[importance] where importance can be LOW, HIGH, or CRITICAL."
-                "Don't forget the [] brackets around the importance level."
+                "Format: MATCHING_SKILL_[importance] or MISSING_SKILL_[importance] (leave the brackets eg: MATCHING_SKILL_[HIGH]) where importance can be LOW, HIGH, or CRITICAL. "
+                "Do not forget the [] brackets around the importance level, They need to be there."
             ),
             expected_output=(
                 "A detailed report highlighting matched skills, missing skills, and tailored suggestions."
