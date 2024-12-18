@@ -117,6 +117,7 @@ class SkillMatching:
             description=(
                 "Using job requirements and the user's profile, identify matching skills and missing skills. "
                 "Format: MATCHING_SKILL_[importance] or MISSING_SKILL_[importance] where importance can be LOW, HIGH, or CRITICAL."
+                "Don't forget the [] brackets around the importance level."
             ),
             expected_output=(
                 "A detailed report highlighting matched skills, missing skills, and tailored suggestions."
