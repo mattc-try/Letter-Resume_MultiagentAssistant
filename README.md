@@ -1,4 +1,3 @@
-
 # AI-Driven Resume and Cover Letter Generator
 
 **Disclaimer**: This implementation is for educational purposes and may require further development for real-world applications.
@@ -32,7 +31,7 @@ This project is a multi-agent AI platform that generates tailored resumes and co
    python -m spacy download en_core_web_sm
    ```
 5. **Set the OpenAI API Key**
-   Export your OpenAI API key as an environment variable (get your own not a charity):
+   Export your OpenAI API key as an environment variable (get your own not a charity, the one in old commits was obviously deleted):
 
    ```bash
    export OPENAI_API_KEY="your_openai_api_key_here"
